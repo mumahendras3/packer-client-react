@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 export default function Login() {
     return (
         <>
@@ -51,7 +53,7 @@ export default function Login() {
                                         </span>
                                     </div>
                                 </button> */}
-                                <p className="mt-8 text-center">Have an account? <a href="#" className="text-blue-500 hover:text-blue-700 font-semibold">Login</a></p>
+                                <p className="mt-8 text-center">Have an account? <Link to={'/login'} className="text-blue-500 hover:text-blue-700 font-semibold">Login</Link></p>
                             </div>
                         </div>
                     </div>
