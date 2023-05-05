@@ -31,7 +31,7 @@ export default function Login() {
                     <a href="#" className="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700">Forgot Password?</a>
                   </div>
 
-                  <button type="submit" className="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
+                  <button type="submit" className="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-[#1F43CF] border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue">
                     Log In
                   </button>
                 </form>
@@ -48,7 +48,7 @@ export default function Login() {
                     </span>
                   </div>
                 </button>
-                <p className="mt-8 text-center">Don't have an account? <Link to={'/register'} className="text-blue-500 hover:text-blue-700 font-semibold">Sign Up</Link></p>
+                <p className="mt-8 text-center">Don't have an account? <Link to={'/register'} className="text-[#1F43CF] hover:text-blue-700 font-semibold">Sign Up</Link></p>
               </div>
             </div>
           </div>

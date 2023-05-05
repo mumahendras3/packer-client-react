@@ -53,7 +53,7 @@ export default function Login() {
                                         </span>
                                     </div>
                                 </button> */}
-                                <p className="mt-8 text-center">Have an account? <Link to={'/login'} className="text-blue-500 hover:text-blue-700 font-semibold">Login</Link></p>
+                                <p className="mt-8 text-center">Have an account? <Link to={'/login'} className="text-[#1F43CF] hover:text-blue-700 font-semibold">Login</Link></p>
                             </div>
                         </div>
                     </div>
