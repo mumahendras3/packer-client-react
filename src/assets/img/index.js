@@ -8,7 +8,8 @@ import modularIcon from './icons-modular.svg'
 import simpleIcon from './icons-simple.svg'
 import signUp from './signupImg.svg'
 import loginImg from './loginImg.svg'
+import identityImg from './identityImg.svg'
 
 export {
-   logo, heroImage, checkIcon, containerIcon, modularIcon, simpleIcon, bodyImage, logobanner, signUp, loginImg
+   logo, heroImage, checkIcon, containerIcon, modularIcon, simpleIcon, bodyImage, logobanner, signUp, loginImg, identityImg
 }
