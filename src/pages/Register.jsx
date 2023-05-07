@@ -17,7 +17,7 @@ const Register = () => {
     function handleSubmit(e) {
         e.preventDefault()
         dispatch(postRegister(form))
-        navigate('/login')
+        // navigate('/login')
     }
 
     function handleChange(e) {

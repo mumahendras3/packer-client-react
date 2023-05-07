@@ -16,7 +16,7 @@ const Login = () => {
   function handleSubmit(e) {
     e.preventDefault()
     dispatch(postLogin(form))
-    navigate('/')
+    // navigate('/')
   }
 
   function handleChange(e) {
