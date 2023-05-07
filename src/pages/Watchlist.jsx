@@ -1,43 +1,59 @@
-import { Link } from "react-router-dom"
-import { identityImg, logo } from "../assets/img"
+import { MdPlaylistAdd } from "react-icons/md";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import CardWatchlist from "../components/CardWatchlist";
+import { fetchRepos } from '../store/action/actionCreator'
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { watchlistEmpty } from "../assets/img";
+import { Link } from "react-router-dom";
 
 const Watchlist = () => {
+   const dispatch = useDispatch();
+   const repos = useSelector(state => state.repos);
+
+   useEffect(() => {
+      dispatch(fetchRepos());
+   }, [dispatch]);
+
    return (
       <div id="watchlist">
-         <nav id="navbar" className='py-4 bg-white sticky top-0 left-0 right-0 shadow-md'>
-            <div className="container mx-auto flex justify-between items-center" >
-               <div id="logoBrand" className='w-2/12'>
-                  <Link to={'/'}>
-                     <img src={logo} className='w-[70%]' alt="" />
-                  </Link>
-               </div>
-               <div id="menuLink" className='flex items-center gap-5'>
-                  <Link to={'/'}>
-                     <span className='hover:text-[#1F43CF] font-medium'>Home</span>
-                  </Link>
-                  <Link to={'/watchlist'}>
-                     <span className='hover:text-[#1F43CF] font-medium'>Watclist</span>
-                  </Link>
-                  <Link to={'/taslist'}>
-                     <span className='hover:text-[#1F43CF] font-medium'>Task</span>
-                  </Link>
-               </div>
-               <div id="actions">
-                  <div className="flex gap-3 items-center">
-                     <div id="name">
-                        <span>Hi, Mahendra</span>
+         <Navbar />
+         {
+            repos.length === 0 ? (
+               <div id="content" className="flex justify-center">
+                  <div className="contentData">
+                     <div id="image">
+                        <img src={watchlistEmpty} alt="" />
                      </div>
-                     <div id="avatar">
-                        <img src={identityImg} className="w-[35px] h-[35px] rounded-full object-cover" alt="" />
+                     <div id="title" className="text-center mt-3">
+                        <h1 className="text-2xl font-semibold">Data is empty !</h1>
+                        <p>Your repository watchlist is empty, add data</p>
                      </div>
+                     <Link to={'/addwatchlist'}>
+                        <button className="flex items-center font-medium gap-2 mx-auto bg-[#B9D5FF] text-[#1F43CF] py-1 px-8 rounded-full border border-blue-500 mt-4">
+                           <MdPlaylistAdd className="text-3xl" />
+                           Add Repository
+                        </button>
+                     </Link>
                   </div>
                </div>
-            </div >
-         </nav >
-         {/* data empty */}
-         <div id="content">
-
-         </div>
+            ) : (
+               <div id="content" className="mt-10">
+                  <div className="container mx-auto grid grid-cols-4 gap-4">
+                     {
+                        repos.map(repo => {
+                           return (
+                              <CardWatchlist key={repo._id} repo={repo} />
+                           )
+                        })
+                     }
+                     </div>
+                  </div>
+            )
+         }
+         <hr className="mt-24" />
+         <Footer />
       </div>
    )
 }
