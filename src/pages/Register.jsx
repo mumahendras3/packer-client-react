@@ -9,6 +9,7 @@ const Register = () => {
     const navigate = useNavigate()
 
     const [form, setForm] = useState({
+        name: '',
         email: '',
         password: ''
     })
@@ -48,17 +49,25 @@ const Register = () => {
                         <form action="" onSubmit={handleSubmit}>
                             <div id="input" className="flex flex-col gap-8">
                                 <div id="fullname" className="flex flex-col">
-                                    <label className="text-gray-500" htmlFor="">Full name</label>
-                                    <input type="text" className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full" placeholder="ex: Mahendra" />
+                                    <label className="text-gray-500" htmlFor="">Name</label>
+                                    <input
+                                        value={form.name}
+                                        onChange={handleChange}
+                                        name="name"
+                                        type="text"
+                                        className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full"
+                                        placeholder="ex: Mahendra"
+                                    />
                                 </div>
                                 <div id="email" className="flex flex-col">
                                     <label className="text-gray-500" htmlFor="">Email</label>
-                                    <input value={form.email}
+                                    <input
+                                        value={form.email}
                                         onChange={handleChange}
-                                        id="email"
                                         name="email"
-                                        type="text"
-                                        className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full" placeholder="ex: Mahendra@gmail.com"
+                                        type="email"
+                                        className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full"
+                                        placeholder="ex: Mahendra@gmail.com"
                                     />
                                 </div>
                                 <div id="password" className="flex flex-col">
@@ -68,7 +77,8 @@ const Register = () => {
                                         onChange={handleChange}
                                         name="password"
                                         type="password"
-                                        className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full" placeholder="* * * * *"
+                                        className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full"
+                                        placeholder="* * * * *"
                                     />
                                 </div>
                                 <button className="bg-[#1F43CF] py-3 text-white font-medium rounded-md">Sign Up</button>
