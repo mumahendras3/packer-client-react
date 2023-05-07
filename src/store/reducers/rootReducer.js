@@ -1,8 +1,14 @@
-import { FETCH_REPOS_FAILURE, REGISTER_POST_SUCCESS } from '../action/actionTypes'
-import { FETCH_REPOS_SUCCESS } from '../action/actionTypes'
+
+import { 
+    LOGIN_POST_SUCCESS, 
+    REGISTER_POST_SUCCESS,
+    FETCH_REPOS_SUCCESS,
+    FETCH_REPOS_FAILURE
+} from '../action/actionTypes'
 
 const defaultValue = {
     register: {},
+    login: {},
     repos: [],
     error: null
 }
@@ -12,6 +18,11 @@ export default function rootReducer(state = defaultValue, action) {
         return {
             ...state,
             register: action.payload
+        }
+    } else if (action.type === LOGIN_POST_SUCCESS) {
+        return {
+            ...state,
+            login: action.payload
         }
     } else if (action.type === FETCH_REPOS_SUCCESS) {
         return {
@@ -23,8 +34,7 @@ export default function rootReducer(state = defaultValue, action) {
         return {
             ...state,
             error: action.payload,
-        }
-    }
+    } 
 
     return state
 }
