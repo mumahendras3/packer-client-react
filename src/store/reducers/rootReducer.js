@@ -1,11 +1,16 @@
+
 import { 
     LOGIN_POST_SUCCESS, 
-    REGISTER_POST_SUCCESS, 
+    REGISTER_POST_SUCCESS,
+    FETCH_REPOS_SUCCESS,
+    FETCH_REPOS_FAILURE
 } from '../action/actionTypes'
 
 const defaultValue = {
     register: {},
     login: {},
+    repos: [],
+    error: null
 }
 
 export default function rootReducer(state = defaultValue, action) {
@@ -19,7 +24,17 @@ export default function rootReducer(state = defaultValue, action) {
             ...state,
             login: action.payload
         }
-    }
+    } else if (action.type === FETCH_REPOS_SUCCESS) {
+        return {
+            ...state,
+            repos: action.payload,
+            error: null,
+        }
+    } else if (action.type === FETCH_REPOS_FAILURE) {
+        return {
+            ...state,
+            error: action.payload,
+    } 
 
     return state
 }
