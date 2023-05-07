@@ -21,7 +21,8 @@ export function postRegister(data = {}) {
             const response = await axios({
                 method: 'post',
                 url: 'http://3.93.59.137:3000/register',
-                data: data
+                data: data,
+                timeout: 2000
             });
             console.log(response, 'Berhasil register');
             const successData = response.data
@@ -38,7 +39,8 @@ export function postLogin(data = {}) {
             const response = await axios({
                 method: 'post',
                 url: 'http://3.93.59.137:3000/login',
-                data: data
+                data: data,
+                timeout: 2000
             });
             console.log(response, 'Berhasil login');
             const access_token = await response.data.access_token
