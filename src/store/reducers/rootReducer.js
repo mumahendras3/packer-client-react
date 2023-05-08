@@ -1,4 +1,3 @@
-
 import { 
     LOGIN_POST_SUCCESS, 
     REGISTER_POST_SUCCESS,
@@ -33,8 +32,9 @@ export default function rootReducer(state = defaultValue, action) {
     } else if (action.type === FETCH_REPOS_FAILURE) {
         return {
             ...state,
-            error: action.payload,
-    } 
+            error: null,
+        }
+    }
 
     return state
 }

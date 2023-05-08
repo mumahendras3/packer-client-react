@@ -1,9 +1,13 @@
 import axios from 'axios'
-import { REGISTER_POST_SUCCESS } from "./actionTypes";
-// fetch repo
-import { FETCH_REPOS_SUCCESS } from './actionTypes'
-import { FETCH_REPOS_FAILURE } from './actionTypes'
-import { LOGIN_POST_SUCCESS, REGISTER_POST_SUCCESS } from "./actionTypes";
+import {
+    LOGIN_POST_SUCCESS,
+    REGISTER_POST_SUCCESS,
+    FETCH_REPOS_SUCCESS,
+    FETCH_REPOS_FAILURE
+} from "./actionTypes";
+
+// const BASE_URL = 'http://3.93.59.137:3000'
+const BASE_URL = 'https://p2-iproject-server-production-c152.up.railway.app'
 
 export function postRegisterSuccess(payload) {
     return {
@@ -35,7 +39,7 @@ export function postRegister(data = {}) {
         try {
             const response = await axios({
                 method: 'post',
-                url: 'http://3.93.59.137:3000/register',
+                url: `${BASE_URL}/register`,
                 data: data,
                 timeout: 2000
             });
@@ -54,7 +58,7 @@ export function postLogin(data = {}) {
         try {
             const response = await axios({
                 method: 'post',
-                url: 'http://3.93.59.137:3000/login',
+                url: `${BASE_URL}/login`,
                 data: data,
                 timeout: 2000
             });
@@ -75,7 +79,7 @@ export const fetchRepos = () => async (dispatch) => {
     try {
         let axiosOptions = {
             method: 'GET',
-            url: 'https://p2-iproject-server-production-c152.up.railway.app/repos',
+            url: `${BASE_URL}/repos`,
             headers: {
                 access_token: localStorage.access_token || sessionStorage.access_token,
             },

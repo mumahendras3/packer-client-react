@@ -13,10 +13,10 @@ const Login = () => {
     password: ''
   })
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    dispatch(postLogin(form))
-    // navigate('/')
+    await dispatch(postLogin(form))
+    navigate('/')
   }
 
   function handleChange(e) {

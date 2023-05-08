@@ -1,12 +1,10 @@
 import { bodyImage, checkIcon, containerIcon, heroImage, logobanner, modularIcon, simpleIcon } from '../assets/img/index'
 import { BiCloudUpload, BiLayout } from "react-icons/bi";
 import { FaDocker, FaServer } from "react-icons/fa";
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer';
+
 const Home = () => {
     return (
         <div id="Home">
-            <Navbar />
             <div id="hero" className='my-10'>
                 <div className="container mx-auto flex items-center">
                     <div className="left w-1/2 flex flex-col">
@@ -187,7 +185,6 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
     )
 }
