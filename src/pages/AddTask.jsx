@@ -1,8 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addTask } from "../assets/img";
 import { FaRegCalendarAlt } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRepos, addTaskRequest } from "../store/action/actionCreator";
 
 const AddTask = () => {
+   const dispatch = useDispatch()
+   const repos = useSelector(state => state.repos)
+   const [repoId, setRepoId] = useState('');
+   // console.log(repoId, '<<<<<<');
+   const[form, setForm] = useState({
+      repo: '',
+      releaseAsset: '',
+      containerImage: '',
+      runCommand: '',
+   })
+
    const [showPopup, setShowPopup] = useState(false);
    const handleShowPopup = () => setShowPopup(true);
    const handleClosePopup = () => setShowPopup(false);
@@ -10,6 +23,30 @@ const AddTask = () => {
       e.preventDefault();
       console.log('submit')
    }
+   function handleOnChangeRepo(event) {
+      setRepoId(event.target.value);
+      // console.log(repoId, '<<<<<<<<<<<');
+   }
+
+   useEffect(() => {
+      dispatch(fetchRepos())
+   }, [])
+
+   function handleSubmit(e) {
+      e.preventDefault()
+      console.log(form)
+      dispatch(addTaskRequest(form))
+   }
+
+   function handleChange(e) {
+      const { name, value } = e.target
+      setForm({
+         ...form,
+         [name]: value,
+         repo:repoId
+      })
+   }
+
    return (
       <div id="addTask">
          <div className="container mx-auto shadow border rounded-md p-10 mt-10 flex justify-between items-center">
@@ -22,30 +59,41 @@ const AddTask = () => {
                   <div id="input" className="flex flex-col gap-8">
                      <div id="repositoryname" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Repository</label>
-                        <select name="repository" id="" className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full">
-                           <option defaultValue="select form watchlist">select form watchlist</option>
-                           <option value="data">Data</option>
-                           <option value="data">Data</option>
-                           <option value="data">Data</option>
+                        <select value={repoId} onChange={handleOnChangeRepo} name="repo" id="" className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full">
+                           <option value="" defaultValue="select form watchlist">select form watchlist</option>
+                           {repos.map((repo) => {
+                              return (
+                                 <option key={repo._id} value={repo._id}>{repo.name}</option>
+                              )
+                           })}
                         </select>
                      </div>
                      <div id="releaseAssets" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Release assets</label>
-                        <select name="releaseAsset" id="" className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full">
+                        <select value={form.releaseAsset} onChange={handleChange} name="releaseAsset" id="" className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full">
                            <option defaultValue='Select from endpoint'>Select from endpoint</option>
-                           <option value="data">Data</option>
-                           <option value="data">Data</option>
-                           <option value="data">Data</option>
+                           {repos.find(repo => repo._id === repoId)?.latestReleaseAssets.map((release) => {
+                              return (
+                                 <option key={release._id} value={release.name}>{release.name}</option>
+                              )
+                           })}
                         </select>
                      </div>
-                     <div id="addtionalfiles" className="flex flex-col">
+                     <div id="additionalfiles" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Additional files</label>
-                        <input type="file" name="addingfile" id="" className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full" multiple />
+                        <input
+                           name="addingfile"
+                           type="file"
+                           id=""
+                           className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full" multiple
+                        />
                      </div>
                      <div id="containerimage" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Container image</label>
                         <input
-                           name="repositoryname"
+                           value={form.containerImage}
+                           onChange={handleChange}
+                           name="containerImage"
                            type="text"
                            className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full"
                            placeholder="Input container image"
@@ -54,14 +102,16 @@ const AddTask = () => {
                      <div id="runcommand" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Run command</label>
                         <input
-                           name="repositoryname"
+                           value={form.runCommand}
+                           onChange={handleChange}
+                           name="runCommand"
                            type="text"
                            className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full"
                            placeholder="terminal command you want to enter"
                         />
                      </div>
                      <div id="actions" className="flex items-center justify-between gap-9">
-                        <button type="submit" className="bg-[#1F43CF] py-3 text-white font-medium rounded-md w-1/2">Start</button>
+                        <button className="bg-[#1F43CF] py-3 text-white font-medium rounded-md w-1/2">Start</button>
                         <button type="button" onClick={handleShowPopup} className="bg-[#1F43CF] py-3 text-white font-medium rounded-md w-1/2 flex items-center justify-center gap-3"> <FaRegCalendarAlt />Schedule later</button>
                      </div>
                      {

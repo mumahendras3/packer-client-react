@@ -1,15 +1,16 @@
 import axios from "axios";
 import {
-  LOGIN_POST_SUCCESS,
-  REGISTER_POST_SUCCESS,
-  FETCH_REPOS_SUCCESS,
-  FETCH_REPOS_FAILURE,
-  ADD_REPO_FAILURE,
-  ADD_REPO_SUCCESS,
+    LOGIN_POST_SUCCESS,
+    REGISTER_POST_SUCCESS,
+    FETCH_REPOS_SUCCESS,
+    FETCH_REPOS_FAILURE,
+    ADD_REPO_FAILURE,
+    ADD_REPO_SUCCESS,
+    ADD_TASK_SUCCESS
 } from "./actionTypes";
 
-// const BASE_URL = 'http://3.93.59.137:3000'
-const BASE_URL = "https://p2-iproject-server-production-c152.up.railway.app";
+const BASE_URL = 'http://localhost:3000'
+// const BASE_URL = 'https://p2-iproject-server-production-c152.up.railway.app'
 
 export function postRegisterSuccess(payload) {
   return {
@@ -44,6 +45,13 @@ export const addRepoSuccess = (repository) => ({
   type: ADD_REPO_SUCCESS,
   payload: repository,
 });
+
+export function addTaskSuccess(payload) {
+    return {
+        type: ADD_TASK_SUCCESS,
+        payload
+    }
+}
 
 export function postRegister(data = {}) {
   return async function (dispatch) {
@@ -106,24 +114,43 @@ export const fetchRepos = () => async (dispatch) => {
 };
 
 export const addRepoRequest = (formData) => async (dispatch) => {
-  try {
-    const access_token =
-      localStorage.getItem("access_token") ||
-      sessionStorage.getItem("access_token");
-    const axiosOptions = {
-      method: "POST",
-      url: `https://p2-iproject-server-production-c152.up.railway.app/repos`,
-      data: formData,
-      headers: {
-        access_token: access_token,
-      },
-    };
-    const { data } = await axios(axiosOptions);
-    // dispatch action to update state with the new repository
-    console.log(data);
-    dispatch(addRepoSuccess(data));
-  } catch (err) {
-    // dispatch action to update state with error
-    dispatch(addRepoFailure(err));
-  }
+    try {
+        const access_token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+        const axiosOptions = {
+            method: 'POST',
+            url: `${BASE_URL}/repos`,
+            data: formData,
+            headers: {
+                access_token: access_token,
+            },
+        };
+        const { data } = await axios(axiosOptions);
+        // dispatch action to update state with the new repository
+        console.log(data)
+        dispatch(addRepoSuccess(data));
+    } catch (err) {
+        // dispatch action to update state with error
+        dispatch(addRepoFailure(err));
+    }
 };
+
+export function addTaskRequest(data = {}) {
+    return async function (dispatch) {
+        console.log(data,"datanya<<<")
+        try {
+            const response = await axios({
+                method: 'post',
+                url: `${BASE_URL}/tasks`,
+                data: data,
+                headers: {
+                    access_token: localStorage.access_token || sessionStorage.access_token,
+                },
+            });
+            const successData = response.data
+            console.log(successData, 'berhasil');
+            dispatch(postRegisterSuccess(successData))
+        } catch (error) {
+            console.log(error, '<======= Error');
+        }
+    }
+}
