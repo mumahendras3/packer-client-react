@@ -52,6 +52,19 @@ export function postRegister(data = {}) {
     }
 }
 
+export function postRegisterSuccess(payload) {
+    return {
+        type: REGISTER_POST_SUCCESS,
+        payload
+    }
+}
+
+export function postLoginSuccess(payload) {
+    return {
+        type: LOGIN_POST_SUCCESS,
+        payload
+    }
+}
 
 export function postLogin(data = {}) {
     return async function (dispatch) {
@@ -60,7 +73,7 @@ export function postLogin(data = {}) {
                 method: 'post',
                 url: `${BASE_URL}/login`,
                 data: data,
-                timeout: 2000
+                timeout: 5000
             });
             console.log(response, 'Berhasil login');
             const access_token = await response.data.access_token
@@ -74,6 +87,16 @@ export function postLogin(data = {}) {
         }
     }
 }
+
+export const fetchReposSuccess = (repos) => ({
+    type: FETCH_REPOS_SUCCESS,
+    payload: repos,
+});
+
+export const fetchReposFailure = (error) => ({
+    type: FETCH_REPOS_FAILURE,
+    payload: error,
+});
 
 export const fetchRepos = () => async (dispatch) => {
     try {
@@ -89,5 +112,36 @@ export const fetchRepos = () => async (dispatch) => {
     } catch (err) {
         if (err.response) dispatch(fetchReposFailure(err.response.data));
         dispatch(fetchReposFailure(err));
+    }
+};
+
+export const addRepoFailure = (error) => ({
+    type: 'ADD_REPO_FAILURE',
+    payload: error,
+});
+
+export const addRepoSuccess = (repository) => ({
+    type: ADD_REPO_SUCCESS,
+    payload: repository,
+});
+
+export const addRepoRequest = (formData) => async (dispatch) => {
+    try {
+        const access_token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
+        const axiosOptions = {
+            method: 'POST',
+            url: `https://p2-iproject-server-production-c152.up.railway.app/repos`,
+            data: formData,
+            headers: {
+                access_token: access_token,
+            },
+        };
+        const { data } = await axios(axiosOptions);
+        // dispatch action to update state with the new repository
+        console.log(data)
+        dispatch(addRepoSuccess(data));
+    } catch (err) {
+        // dispatch action to update state with error
+        dispatch(addRepoFailure(err));
     }
 };
