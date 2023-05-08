@@ -6,6 +6,7 @@ import Watchlist from '../pages/Watchlist';
 import AddWatchlist from '../pages/AddWatchlist';
 import AddTask from '../pages/AddTask';
 import Layout from '../layout/Layout';
+import Tasklist from '../pages/Tasklist';
 
 const router = createBrowserRouter([
     {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
             {
                 path: "/addtask",
                 element: <AddTask />,
+            },
+            {
+                path: "/tasklist",
+                element: <Tasklist />,
             },
         ]
     },
