@@ -3,7 +3,9 @@ import {
     LOGIN_POST_SUCCESS,
     REGISTER_POST_SUCCESS,
     FETCH_REPOS_SUCCESS,
-    FETCH_REPOS_FAILURE
+    FETCH_REPOS_FAILURE,
+    ADD_REPO_FAILURE,
+    ADD_REPO_SUCCESS
 } from "./actionTypes";
 
 // const BASE_URL = 'http://3.93.59.137:3000'
@@ -16,6 +18,12 @@ export function postRegisterSuccess(payload) {
     }
 }
 
+export function postLoginSuccess(payload) {
+    return {
+        type: LOGIN_POST_SUCCESS,
+        payload
+    }
+}
 
 export const fetchReposSuccess = (repos) => ({
     type: FETCH_REPOS_SUCCESS,
@@ -27,12 +35,16 @@ export const fetchReposFailure = (error) => ({
     payload: error,
 });
 
-export function postLoginSuccess(payload) {
-    return {
-        type: LOGIN_POST_SUCCESS,
-        payload
-    }
-}
+export const addRepoFailure = (error) => ({
+    type: ADD_REPO_FAILURE,
+    payload: error,
+});
+
+export const addRepoSuccess = (repository) => ({
+    type: ADD_REPO_SUCCESS,
+    payload: repository,
+});
+
 
 export function postRegister(data = {}) {
     return async function (dispatch) {
@@ -49,20 +61,6 @@ export function postRegister(data = {}) {
         } catch (error) {
             console.log(error, '<======= Error');
         }
-    }
-}
-
-export function postRegisterSuccess(payload) {
-    return {
-        type: REGISTER_POST_SUCCESS,
-        payload
-    }
-}
-
-export function postLoginSuccess(payload) {
-    return {
-        type: LOGIN_POST_SUCCESS,
-        payload
     }
 }
 
@@ -88,16 +86,6 @@ export function postLogin(data = {}) {
     }
 }
 
-export const fetchReposSuccess = (repos) => ({
-    type: FETCH_REPOS_SUCCESS,
-    payload: repos,
-});
-
-export const fetchReposFailure = (error) => ({
-    type: FETCH_REPOS_FAILURE,
-    payload: error,
-});
-
 export const fetchRepos = () => async (dispatch) => {
     try {
         let axiosOptions = {
@@ -114,16 +102,6 @@ export const fetchRepos = () => async (dispatch) => {
         dispatch(fetchReposFailure(err));
     }
 };
-
-export const addRepoFailure = (error) => ({
-    type: 'ADD_REPO_FAILURE',
-    payload: error,
-});
-
-export const addRepoSuccess = (repository) => ({
-    type: ADD_REPO_SUCCESS,
-    payload: repository,
-});
 
 export const addRepoRequest = (formData) => async (dispatch) => {
     try {
