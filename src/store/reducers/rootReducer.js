@@ -48,5 +48,6 @@ export default function rootReducer(state = defaultValue, action) {
             error: action.payload,
         };
     }
+    
     return state
 }

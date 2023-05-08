@@ -1,12 +1,9 @@
 import { addTask } from "../assets/img";
-import Footer from "../components/Footer"
-import Navbar from "../components/Navbar"
 import { FaRegCalendarAlt } from "react-icons/fa";
 
 const AddTask = () => {
    return (
       <div id="addTask">
-         <Navbar />
          <div className="container mx-auto shadow border rounded-md p-10 mt-10 flex justify-between items-center">
             <div id="left" className="w-1/2">
                <div id="heading" className="mb-5">
@@ -67,7 +64,6 @@ const AddTask = () => {
             </div>
          </div>
          <hr className="mt-24" />
-         <Footer />
       </div>
    )
 }

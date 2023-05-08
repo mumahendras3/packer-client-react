@@ -1,7 +1,5 @@
 import { useDispatch } from "react-redux"
 import { addRepository } from "../assets/img"
-import Footer from "../components/Footer"
-import Navbar from "../components/Navbar"
 import { addRepoRequest } from '../store/action/actionCreator';
 import { useState } from "react";
 
@@ -27,7 +25,6 @@ const AddWatchlist = () => {
    };
    return (
       <div id="addwatchlist">
-         <Navbar />
          <div className="container mx-auto shadow border rounded-md p-10 mt-10 flex justify-between items-center">
             <div id="left" className="w-1/2">
                <div id="heading" className="mb-5">
@@ -78,7 +75,6 @@ const AddWatchlist = () => {
             </div>
          </div>
          <hr className="mt-24" />
-         <Footer />
       </div>
    )
 }

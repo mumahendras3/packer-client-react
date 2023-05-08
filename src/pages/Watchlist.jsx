@@ -1,6 +1,4 @@
 import { MdPlaylistAdd } from "react-icons/md";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import CardWatchlist from "../components/CardWatchlist";
 import { fetchRepos } from '../store/action/actionCreator'
 import { useEffect } from "react";
@@ -18,7 +16,6 @@ const Watchlist = () => {
 
    return (
       <div id="watchlist">
-         <Navbar />
          {
             repos.length === 0 ? (
                <div id="content" className="flex justify-center">
@@ -53,7 +50,6 @@ const Watchlist = () => {
             )
          }
          <hr className="mt-24" />
-         <Footer />
       </div>
    )
 }

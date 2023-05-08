@@ -33,7 +33,7 @@ const Navbar = () => {
             </div >
          </nav > */}
          {/* isLogin = true */}
-         <nav id="navbar" className='py-4 bg-white sticky top-0 left-0 right-0 shadow'>
+         <nav id="navbar" className='flex'>
             <div className="container mx-auto flex justify-between items-center" >
                <div id="logoBrand" className='w-2/12'>
                   <Link to={'/'}>
