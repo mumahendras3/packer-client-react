@@ -154,18 +154,18 @@ const Home = () => {
                         <div className="left w-1/2">
                             <img src={bodyImage} className='w-4/5' alt="" />
                         </div>
-                        <div className="right flex flex-col gap-5">
+                        <div className="right flex flex-col gap-5 w-1/2">
                             <div id="items" className='border-l-4 border-[#08207d] p-3'>
                                 <h3 className='text-xl font-semibold text-[#1F43CF]'>Simple</h3>
                                 <p className='text-slate-700'>Packer is designed from the beginning to be simple to use and integrate to your existing workflow.</p>
                             </div>
                             <div id="items" className='border-l-4 border-[#08207d] p-3'>
-                                <h3 className='text-xl font-semibold text-[#1F43CF]'>Simple</h3>
-                                <p className='text-slate-700'>Packer is designed from the beginning to be simple to use and integrate to your existing workflow.</p>
+                                <h3 className='text-xl font-semibold text-[#1F43CF]'>Containerized</h3>
+                                <p className='text-slate-700'>All tasks are run inside a Docker container, so your build scripts are run in a clean and reproducible environment. No need to install any dependencies other than Docker!</p>
                             </div>
                             <div id="items" className='border-l-4 border-[#08207d] p-3'>
-                                <h3 className='text-xl font-semibold text-[#1F43CF]'>Simple</h3>
-                                <p className='text-slate-700'>Packer is designed from the beginning to be simple to use and integrate to your existing workflow.</p>
+                                <h3 className='text-xl font-semibold text-[#1F43CF]'>Modular</h3>
+                                <p className='text-slate-700'>The server and client part of Packer are separate so they can be run on separate servers. Additionally, the Docker Engine that Packer will use to run your tasks does not need to run on the same host as the Packer server, so you can run the Docker Engine on a more powerful system to speed-up build times.</p>
                             </div>
                         </div>
                     </div>
