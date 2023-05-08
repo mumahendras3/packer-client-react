@@ -4,14 +4,16 @@ import {
     FETCH_REPOS_SUCCESS,
     FETCH_REPOS_FAILURE,
     ADD_REPO_SUCCESS,
-    ADD_REPO_FAILURE
+    ADD_REPO_FAILURE,
+    ADD_TASK_SUCCESS
 } from '../action/actionTypes'
 
 const defaultValue = {
     register: {},
     login: {},
     repos: [],
-    error: null
+    error: null,
+    addTask: {},
 }
 
 export default function rootReducer(state = defaultValue, action) {
@@ -47,6 +49,11 @@ export default function rootReducer(state = defaultValue, action) {
             ...state,
             error: action.payload,
         };
+    } else if (action.type === ADD_TASK_SUCCESS) {
+        return {
+            ...state,
+            addTask: action.payload
+        }
     }
     
     return state
