@@ -12,7 +12,7 @@ const AddTask = () => {
    }
    return (
       <div id="addTask">
-         <div className="container mx-auto shadow border rounded-md p-10 mt-10 flex justify-between items-center">
+         <div className="container mx-auto shadow border rounded-md p-10 mt-10 flex justify-between items-start">
             <div id="left" className="w-1/2">
                <div id="heading" className="mb-5">
                   <h1 className="text-2xl font-bold">Add Task</h1>

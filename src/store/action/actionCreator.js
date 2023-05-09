@@ -5,11 +5,14 @@ import {
     FETCH_REPOS_SUCCESS,
     FETCH_REPOS_FAILURE,
     ADD_REPO_FAILURE,
-    ADD_REPO_SUCCESS
+    ADD_REPO_SUCCESS,
+    GET_TASKS_REQUEST,
+    GET_TASKS_SUCCESS,
+    GET_TASKS_FAILURE
 } from "./actionTypes";
 
-// const BASE_URL = 'http://3.93.59.137:3000'
-const BASE_URL = 'https://p2-iproject-server-production-c152.up.railway.app'
+const BASE_URL = 'http://localhost:3000'
+// const BASE_URL = 'https://p2-iproject-server-production-c152.up.railway.app'
 
 export function postRegisterSuccess(payload) {
     return {
@@ -44,7 +47,6 @@ export const addRepoSuccess = (repository) => ({
     type: ADD_REPO_SUCCESS,
     payload: repository,
 });
-
 
 export function postRegister(data = {}) {
     return async function (dispatch) {
@@ -108,7 +110,7 @@ export const addRepoRequest = (formData) => async (dispatch) => {
         const access_token = localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
         const axiosOptions = {
             method: 'POST',
-            url: `https://p2-iproject-server-production-c152.up.railway.app/repos`,
+            url: `${BASE_URL}/repos`,
             data: formData,
             headers: {
                 access_token: access_token,
@@ -122,4 +124,37 @@ export const addRepoRequest = (formData) => async (dispatch) => {
         // dispatch action to update state with error
         dispatch(addRepoFailure(err));
     }
+};
+
+export const getTasksRequest = () => ({
+    type: GET_TASKS_REQUEST
+});
+
+export const getTasksSuccess = (tasks) => ({
+    type: GET_TASKS_SUCCESS,
+    payload: tasks
+});
+
+export const getTasksFailure = (error) => ({
+    type: GET_TASKS_FAILURE,
+    payload: error
+});
+
+export const fetchTasks = () => {
+    return async dispatch => {
+        dispatch(getTasksRequest());
+        try {
+            let axiosOptions = {
+                method: 'GET',
+                url: `${BASE_URL}/tasks`,
+                headers: {
+                    access_token: localStorage.access_token || sessionStorage.access_token,
+                },
+            };
+            const { data } = await axios(axiosOptions);
+            dispatch(getTasksSuccess(data));
+        } catch (error) {
+            dispatch(getTasksFailure(error));
+        }
+    };
 };

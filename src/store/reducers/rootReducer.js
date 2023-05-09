@@ -4,7 +4,10 @@ import {
     FETCH_REPOS_SUCCESS,
     FETCH_REPOS_FAILURE,
     ADD_REPO_SUCCESS,
-    ADD_REPO_FAILURE
+    ADD_REPO_FAILURE,
+    GET_TASKS_SUCCESS,
+    GET_TASKS_REQUEST,
+    GET_TASKS_FAILURE
 } from '../action/actionTypes'
 
 const defaultValue = {
@@ -46,6 +49,24 @@ export default function rootReducer(state = defaultValue, action) {
         return {
             ...state,
             error: action.payload,
+        };
+    } else if (action.type === GET_TASKS_REQUEST) {
+        return {
+            ...state,
+            loading: true,
+            error: null
+        };
+    } else if (action.type === GET_TASKS_SUCCESS) {
+        return {
+            ...state,
+            tasks: action.payload,
+            loading: false
+        };
+    } else if (action.type === GET_TASKS_FAILURE) {
+        return {
+            ...state,
+            loading: false,
+            error: action.payload
         };
     }
     
