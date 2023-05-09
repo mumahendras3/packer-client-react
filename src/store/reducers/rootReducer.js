@@ -7,14 +7,20 @@ import {
     ADD_REPO_FAILURE,
     GET_TASKS_SUCCESS,
     GET_TASKS_REQUEST,
-    GET_TASKS_FAILURE
+    GET_TASKS_FAILURE,
+    ADD_TASK_SUCCESS,
+    FETCH_SEARCH_CONTAINER,
+    ADD_FILES_SUCCESS
 } from '../action/actionTypes'
 
 const defaultValue = {
     register: {},
     login: {},
     repos: [],
-    error: null
+    error: null,
+    addTask: {},
+    container: [],
+    addFiles: {}
 }
 
 export default function rootReducer(state = defaultValue, action) {
@@ -68,6 +74,21 @@ export default function rootReducer(state = defaultValue, action) {
             loading: false,
             error: action.payload
         };
+    } else if (action.type === ADD_TASK_SUCCESS) {
+        return {
+            ...state,
+            addTask: action.payload
+        }
+    } else if (action.type === FETCH_SEARCH_CONTAINER) {
+        return {
+            ...state,
+            container: action.payload
+        }
+    } else if (action.type === ADD_FILES_SUCCESS) {
+        return {
+            ...state,
+            addFiles: action.payload
+        }
     }
     
     return state

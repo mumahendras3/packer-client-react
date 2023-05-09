@@ -44,16 +44,29 @@ const router = createBrowserRouter([
                 path: "/taskdetail",
                 element: <TaskDetail />,
             },
-        ]
+        ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+    loader: () => {
+      console.log(location);
+      if (!localStorage.access_token) {
+        return null;
+      }
+      return redirect("/");
     },
-    {
-        path: "/login",
-        element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+    loader: () => {
+      if (!localStorage.access_token) {
+        return null;
+      }
+      return redirect("/");
     },
-    {
-        path: "/register",
-        element: <Register />,
-    },
+  },
 ]);
 
-export default router
+export default router;
