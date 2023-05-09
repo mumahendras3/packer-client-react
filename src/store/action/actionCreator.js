@@ -7,7 +7,8 @@ import {
     ADD_REPO_FAILURE,
     ADD_REPO_SUCCESS,
     ADD_TASK_SUCCESS,
-    FETCH_SEARCH_CONTAINER
+    FETCH_SEARCH_CONTAINER,
+    ADD_FILES_SUCCESS
 } from "./actionTypes";
 
 const BASE_URL = 'http://localhost:3000'
@@ -57,6 +58,13 @@ export function addTaskSuccess(payload) {
 export function fetchSearchContainerSuccess(payload) {
     return {
         type: FETCH_SEARCH_CONTAINER,
+        payload
+    }
+}
+
+export function addFilesSuccess(payload) {
+    return {
+        type: ADD_FILES_SUCCESS,
         payload
     }
 }
@@ -191,6 +199,31 @@ export function fetchSearchContainer(filter) {
             console.log(successData, 'berhasil');
             dispatch(fetchSearchContainerSuccess(successData))
             return successData
+        } catch (error) {
+            console.log(error, '<======= Error');
+        }
+    }
+}
+
+export function addFilesRequest(data = {}) {
+    return async function (dispatch) {
+        try {
+            const uploadFiles = new FormData()
+            for (const file of data) {
+                uploadFiles.append('additionalFiles', file)
+            }
+            const response = await axios({
+                method: 'post',
+                url: `${BASE_URL}/files`,
+                data: uploadFiles,
+                headers: {
+                    access_token: localStorage.access_token || sessionStorage.access_token,
+                },
+            });
+            const successData = response.data
+            console.log(successData, 'berhasil');
+            dispatch(addFilesSuccess(successData))
+            return successData.files
         } catch (error) {
             console.log(error, '<======= Error');
         }

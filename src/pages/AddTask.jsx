@@ -2,16 +2,19 @@ import { useEffect, useState } from "react";
 import { addTask } from "../assets/img";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRepos, addTaskRequest, fetchSearchContainer } from "../store/action/actionCreator";
+import { fetchRepos, addTaskRequest, fetchSearchContainer, addFilesRequest } from "../store/action/actionCreator";
 import './custom.css'
+import { useNavigate } from "react-router-dom";
 
 const AddTask = () => {
+   const navigate = useNavigate()
    const dispatch = useDispatch()
    const repos = useSelector(state => state.repos)
    const [search, setSearch] = useState('')
    const [suggestion, setSuggestion] = useState([])
    const [scheduleDate, setScheduleDate] = useState('')
    const [scheduleTime, setScheduleTime] = useState('')
+   const [uploadFiles, setUploadFiles] = useState('')
 
    const [repoId, setRepoId] = useState('');
    // console.log(repoId, '<<<<<<');
@@ -20,7 +23,8 @@ const AddTask = () => {
       releaseAsset: '',
       containerImage: '',
       runCommand: '',
-      runAt: null
+      runAt: null,
+      additionalFiles: []
    })
 
    const [showPopup, setShowPopup] = useState(false);
@@ -39,10 +43,19 @@ const AddTask = () => {
       dispatch(fetchRepos())
    }, [])
 
-   function handleSubmit(e) {
+   async function handleSubmit(e) {
       e.preventDefault()
       console.log(form)
-      dispatch(addTaskRequest(form))
+      await dispatch(addFilesRequest(uploadFiles)).then((data) => {
+         setForm({
+            ...form,
+            additionalFiles: data.map(el => {
+               return el.id
+            })
+         })
+      })
+      await dispatch(addTaskRequest(form))
+      navigate('/tasklist')
    }
 
    function handleChangeSearch(e) {
@@ -68,7 +81,7 @@ const AddTask = () => {
       console.log(value, 'ini value');
       const splitDate = value.split('-')
       const year = +splitDate[0]
-      const month = +splitDate[1] - 1
+      const month = +splitDate[1]
       const date = +splitDate[2]
       const newForm = { ...form };
       if (newForm.runAt) {
@@ -113,6 +126,11 @@ const AddTask = () => {
          }
       }
       setForm(newForm)
+   }
+
+   function handleChangeUpload(e) {
+      e.preventDefault()
+      setUploadFiles(e.target.files)
    }
 
    function handleChange(e) {
@@ -160,16 +178,16 @@ const AddTask = () => {
                      <div id="additionalfiles" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Additional files</label>
                         <input
-                           name="addingfile"
+                           onChange={handleChangeUpload}
+                           name="additionalFiles"
                            type="file"
-                           id=""
+                           id="additionalFiles"
                            className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full" multiple
                         />
                      </div>
                      <div id="containerimage" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Container image</label>
                         <input
-                           // value={form.containerImage}
                            value={search}
                            onChange={handleChangeSearch}
                            name="containerImage"
