@@ -6,6 +6,9 @@ import {
     FETCH_REPOS_FAILURE,
     ADD_REPO_FAILURE,
     ADD_REPO_SUCCESS,
+    GET_TASKS_REQUEST,
+    GET_TASKS_SUCCESS,
+    GET_TASKS_FAILURE,
     ADD_TASK_SUCCESS,
     FETCH_SEARCH_CONTAINER,
     ADD_FILES_SUCCESS
@@ -148,6 +151,39 @@ export const addRepoRequest = (formData) => async (dispatch) => {
         // dispatch action to update state with error
         dispatch(addRepoFailure(err));
     }
+};
+
+export const getTasksRequest = () => ({
+    type: GET_TASKS_REQUEST
+});
+
+export const getTasksSuccess = (tasks) => ({
+    type: GET_TASKS_SUCCESS,
+    payload: tasks
+});
+
+export const getTasksFailure = (error) => ({
+    type: GET_TASKS_FAILURE,
+    payload: error
+});
+
+export const fetchTasks = () => {
+    return async dispatch => {
+        dispatch(getTasksRequest());
+        try {
+            let axiosOptions = {
+                method: 'GET',
+                url: `${BASE_URL}/tasks`,
+                headers: {
+                    access_token: localStorage.access_token || sessionStorage.access_token,
+                },
+            };
+            const { data } = await axios(axiosOptions);
+            dispatch(getTasksSuccess(data));
+        } catch (error) {
+            dispatch(getTasksFailure(error));
+        }
+    };
 };
 
 export function addTaskRequest(data = {}) {
