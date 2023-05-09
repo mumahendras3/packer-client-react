@@ -2,18 +2,29 @@ import { useEffect, useState } from "react";
 import { addTask } from "../assets/img";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRepos, addTaskRequest } from "../store/action/actionCreator";
+import { fetchRepos, addTaskRequest, fetchSearchContainer, addFilesRequest } from "../store/action/actionCreator";
+import './custom.css'
+import { useNavigate } from "react-router-dom";
 
 const AddTask = () => {
+   const navigate = useNavigate()
    const dispatch = useDispatch()
    const repos = useSelector(state => state.repos)
+   const [search, setSearch] = useState('')
+   const [suggestion, setSuggestion] = useState([])
+   const [scheduleDate, setScheduleDate] = useState('')
+   const [scheduleTime, setScheduleTime] = useState('')
+   const [uploadFiles, setUploadFiles] = useState('')
+
    const [repoId, setRepoId] = useState('');
    // console.log(repoId, '<<<<<<');
-   const[form, setForm] = useState({
+   const [form, setForm] = useState({
       repo: '',
       releaseAsset: '',
       containerImage: '',
       runCommand: '',
+      runAt: null,
+      additionalFiles: []
    })
 
    const [showPopup, setShowPopup] = useState(false);
@@ -32,10 +43,94 @@ const AddTask = () => {
       dispatch(fetchRepos())
    }, [])
 
-   function handleSubmit(e) {
+   async function handleSubmit(e) {
       e.preventDefault()
       console.log(form)
-      dispatch(addTaskRequest(form))
+      await dispatch(addFilesRequest(uploadFiles)).then((data) => {
+         setForm({
+            ...form,
+            additionalFiles: data.map(el => {
+               return el.id
+            })
+         })
+      })
+      await dispatch(addTaskRequest(form))
+      navigate('/tasklist')
+   }
+
+   function handleChangeSearch(e) {
+      e.preventDefault()
+      const { name, value } = e.target
+      console.log(value, 'fungsi search');
+      dispatch(fetchSearchContainer(value)).then((data) => {
+         console.log(data, "<<ini data")
+         setSuggestion(data)
+      })
+      setSearch(value)
+   }
+
+   const onSuggestHandler = (search) => {
+      setSearch(search)
+      setSuggestion([])
+   }
+
+   function handleChangeDate(e) {
+      e.preventDefault()
+      const { name, value } = e.target
+      setScheduleDate(value)
+      console.log(value, 'ini value');
+      const splitDate = value.split('-')
+      const year = +splitDate[0]
+      const month = +splitDate[1]
+      const date = +splitDate[2]
+      const newForm = { ...form };
+      if (newForm.runAt) {
+         newForm.runAt = {
+            ...newForm.runAt,
+            year,
+            month,
+            date
+         }
+      } else {
+         newForm.runAt = {
+            year,
+            month,
+            date
+         }
+      }
+      setForm(newForm)
+   }
+
+   function handleChangeTime(e) {
+      e.preventDefault()
+      const { name, value } = e.target
+      setScheduleTime(value)
+      // const date = new Date(scheduleTime)
+      const splitTime = value.split(':')
+      const hour = +splitTime[0]
+      const minute = +splitTime[1]
+      console.log(hour, minute, 'ini value');
+      const newForm = { ...form };
+      if (newForm.runAt) {
+         newForm.runAt = {
+            ...newForm.runAt,
+            hour,
+            minute,
+            second: 0
+         }
+      } else {
+         newForm.runAt = {
+            hour,
+            minute,
+            second: 0
+         }
+      }
+      setForm(newForm)
+   }
+
+   function handleChangeUpload(e) {
+      e.preventDefault()
+      setUploadFiles(e.target.files)
    }
 
    function handleChange(e) {
@@ -43,10 +138,11 @@ const AddTask = () => {
       setForm({
          ...form,
          [name]: value,
-         repo:repoId
+         repo: repoId,
+         containerImage: search
       })
    }
-
+   console.log(suggestion, "<<<ini hasil search")
    return (
       <div id="addTask">
          <div className="container mx-auto shadow border rounded-md p-10 mt-10 flex justify-between items-center">
@@ -82,22 +178,28 @@ const AddTask = () => {
                      <div id="additionalfiles" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Additional files</label>
                         <input
-                           name="addingfile"
+                           onChange={handleChangeUpload}
+                           name="additionalFiles"
                            type="file"
-                           id=""
+                           id="additionalFiles"
                            className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full" multiple
                         />
                      </div>
                      <div id="containerimage" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Container image</label>
                         <input
-                           value={form.containerImage}
-                           onChange={handleChange}
+                           value={search}
+                           onChange={handleChangeSearch}
                            name="containerImage"
                            type="text"
                            className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full"
-                           placeholder="Input container image"
+                           placeholder="Type something here (ex. alpine)"
                         />
+                        {suggestion && suggestion.map((item, i) => {
+                           return (
+                              <div key={i} className="suggestion" onClick={() => onSuggestHandler(item.name)}>{item.name}</div>
+                           )
+                        })}
                      </div>
                      <div id="runcommand" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Run command</label>
@@ -114,38 +216,42 @@ const AddTask = () => {
                         <button className="bg-[#1F43CF] py-3 text-white font-medium rounded-md w-1/2">Start</button>
                         <button type="button" onClick={handleShowPopup} className="bg-[#1F43CF] py-3 text-white font-medium rounded-md w-1/2 flex items-center justify-center gap-3"> <FaRegCalendarAlt />Schedule later</button>
                      </div>
-                     {
-                        showPopup && (
-                           <div id="popupShedule" className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center">
-                              <div className="bg-black bg-opacity-70 absolute w-full h-full"></div>
-                              <div id="form" className="bg-white p-10 w-1/2 rounded-lg z-10 flex flex-col gap-4">
-                                 <div id="date" className="flex flex-col">
-                                    <label className="text-gray-500" htmlFor="">Date</label>
-                                    <input
-                                       name="repositoryname"
-                                       type="date"
-                                       className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full"
-                                       placeholder="terminal command you want to enter"
-                                    />
-                                 </div>
-                                 <div id="time" className="flex flex-col">
-                                    <label className="text-gray-500" htmlFor="">Time</label>
-                                    <input
-                                       name="repositoryname"
-                                       type="time"
-                                       className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full"
-                                       placeholder="terminal command you want to enter"
-                                    />
-                                 </div>
-                                 <div id="actions" className="flex items-center justify-between gap-9">
-                                    <button type="submit" className="bg-[#1F43CF] py-3 text-white font-medium rounded-md w-3/5">Schedule</button>
-                                    <button onClick={handleClosePopup} type="button" className="bg-rose-800 py-3 text-white font-medium rounded-md w-1/5">Cencel</button>
-                                 </div>
+                  </div>
+                  {
+                     showPopup && (
+                        <div id="popupShedule" className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center">
+                           <div className="bg-black bg-opacity-70 absolute w-full h-full"></div>
+                           <div id="form" className="bg-white p-10 w-1/2 rounded-lg z-10 flex flex-col gap-4">
+                              <div id="date" className="flex flex-col">
+                                 <label className="text-gray-500" htmlFor="">Date</label>
+                                 <input
+                                    value={scheduleDate}
+                                    onChange={handleChangeDate}
+                                    name="date"
+                                    type="date"
+                                    className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full"
+                                    placeholder="terminal command you want to enter"
+                                 />
+                              </div>
+                              <div id="time" className="flex flex-col">
+                                 <label className="text-gray-500" htmlFor="">Time</label>
+                                 <input
+                                    value={scheduleTime}
+                                    onChange={handleChangeTime}
+                                    name="time"
+                                    type="time"
+                                    className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full"
+                                    placeholder="terminal command you want to enter"
+                                 />
+                              </div>
+                              <div id="actions" className="flex items-center justify-between gap-9">
+                                 <button className="bg-[#1F43CF] py-3 text-white font-medium rounded-md w-3/5">Schedule</button>
+                                 <button onClick={handleClosePopup} type="button" className="bg-rose-800 py-3 text-white font-medium rounded-md w-1/5">Cancel</button>
                               </div>
                            </div>
-                        )
-                     }
-                  </div>
+                        </div>
+                     )
+                  }
                </form>
             </div>
             <div id="register">

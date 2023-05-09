@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
 const CardWatchlist = ({ repo }) => {
    console.log(repo)
    return (
@@ -15,7 +17,9 @@ const CardWatchlist = ({ repo }) => {
             </div>
          </div>
          <div id="action">
-            <button className="bg-[#1F43CF] w-full py-1 text-white rounded">New Taks</button>
+            <button className="bg-[#1F43CF] w-full py-1 text-white rounded">
+               <Link to={'/addtask'}>New Tasks</Link>
+            </button>
          </div>
       </div>
    )
