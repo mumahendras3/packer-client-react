@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { identityImg, logo } from "../assets/img";
 import { useState } from "react";
 import { FaSignOutAlt } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -11,6 +12,21 @@ const Navbar = () => {
   }
   function clearLocalStorage() {
     localStorage.clear();
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+    Toast.fire({
+      icon: 'error',
+      title: 'Logout is successfully'
+    })
     navigate("/login");
   }
   return (

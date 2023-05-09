@@ -2,9 +2,14 @@ import { useDispatch } from "react-redux"
 import { addRepository } from "../assets/img"
 import { addRepoRequest } from '../store/action/actionCreator';
 import { useState } from "react";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+
+
 
 const AddWatchlist = () => {
    const dispatch = useDispatch();
+   const navigate = useNavigate()
    const [name, setName] = useState('');
    const [ownerName, setOwnerName] = useState('');
    const [githubAccessToken, setGithubAccessToken] = useState('');
@@ -21,7 +26,41 @@ const AddWatchlist = () => {
       } else if (sessionStorage.access_token && githubAccessToken) {
          sessionStorage.authorization = `Bearer ${githubAccessToken}`;
       }
-      dispatch(addRepoRequest(formData));
+      if (!formData.name && !formData.ownerName) {
+         const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+          Toast.fire({
+            icon: 'error',
+            title: 'Name and OwnerName is Required'
+          })
+      } else {
+         const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+          Toast.fire({
+            icon: 'success',
+            title: 'Add Repo is Succesfully'
+          })
+         dispatch(addRepoRequest(formData));
+         navigate('/watchlist')
+      }
    };
    return (
       <div id="addwatchlist">
