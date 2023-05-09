@@ -49,7 +49,6 @@ const Watchlist = () => {
                   </div>
             )
          }
-         <hr className="mt-24" />
       </div>
    )
 }

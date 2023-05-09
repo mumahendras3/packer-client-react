@@ -16,6 +16,8 @@ const Tasklist = () => {
       dispatch(fetchTasks());
    }, [dispatch]);
 
+   console.log(tasks)
+
    if (loading) {
       return <p>Loading...</p>;
    }
