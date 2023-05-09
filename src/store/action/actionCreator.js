@@ -387,6 +387,7 @@ export function donwloadOutputBuild(id) {
       const href = URL.createObjectURL(data);
 
       // create "a" HTML element with href to file & click
+      // THIS IS TEST PUSH
       const link = document.createElement("a");
       link.href = href;
       link.setAttribute("download", `${id}-build-output.tar`); //or any other extension
