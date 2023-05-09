@@ -17,7 +17,6 @@ import {
 } from "./actionTypes";
 import Swal from "sweetalert2";
 
-
 const BASE_URL = "http://localhost:3000";
 // const BASE_URL = 'https://p2-iproject-server-production-c152.up.railway.app'
 
@@ -91,107 +90,106 @@ export function fetchTaskLogsSuccess(payload) {
 }
 
 export function postRegister(data = {}) {
-    return async function (dispatch) {
-        try {
-            const response = await axios({
-                method: "post",
-                url: `${BASE_URL}/register`,
-                data: data,
-                timeout: 2000,
-            });
-            console.log(response, "Berhasil register");
-            const successData = response.data;
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                  toast.addEventListener('mouseenter', Swal.stopTimer)
-                  toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-              })
-              Toast.fire({
-                icon: 'success',
-                title: 'Register is successfully'
-              })
-            dispatch(postRegisterSuccess(successData));
-        } catch (error) {
-            console.log(error, "<======= Error");
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                  toast.addEventListener('mouseenter', Swal.stopTimer)
-                  toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-              })
-              Toast.fire({
-                icon: 'error',
-                title: 'Register not successfully'
-              })
-            throw error;
-        }
-    };
+  return async function (dispatch) {
+    try {
+      const response = await axios({
+        method: "post",
+        url: `${BASE_URL}/register`,
+        data: data,
+        timeout: 2000,
+      });
+      console.log(response, "Berhasil register");
+      const successData = response.data;
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+      Toast.fire({
+        icon: "success",
+        title: "Register is successfully",
+      });
+      dispatch(postRegisterSuccess(successData));
+    } catch (error) {
+      console.log(error, "<======= Error");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+      Toast.fire({
+        icon: "error",
+        title: "Register not successfully",
+      });
+      throw error;
+    }
+  };
 }
 
 export function postLogin(data = {}) {
-    return async function (dispatch) {
-        try {
-            const response = await axios({
-                method: "post",
-                url: `${BASE_URL}/login`,
-                data: data,
-                timeout: 5000,
-            });
-            console.log(response, "Berhasil login");
-            const access_token = response.data.access_token;
-            const username = response.data.name;
-            if (access_token) {
-                localStorage.setItem("access_token", access_token);
-                localStorage.setItem("username", username);
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                      toast.addEventListener('mouseenter', Swal.stopTimer)
-                      toast.addEventListener('mouseleave', Swal.resumeTimer)
-                    }
-                  })
-                  Toast.fire({
-                    icon: 'success',
-                    title: 'Login is successfully'
-                  })
-            }
-            const successData = response.data;
-            dispatch(postLoginSuccess(successData));
-        } catch (error) {
-            const Toast = Swal.mixin({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: (toast) => {
-                  toast.addEventListener('mouseenter', Swal.stopTimer)
-                  toast.addEventListener('mouseleave', Swal.resumeTimer)
-                }
-              })
-              Toast.fire({
-                icon: 'error',
-                title: 'Login not successfully'
-              })
-            console.log(error, "<======= Error");
-        }
-    };
-
+  return async function (dispatch) {
+    try {
+      const response = await axios({
+        method: "post",
+        url: `${BASE_URL}/login`,
+        data: data,
+        timeout: 5000,
+      });
+      console.log(response, "Berhasil login");
+      const access_token = response.data.access_token;
+      const username = response.data.name;
+      if (access_token) {
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem("username", username);
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+        Toast.fire({
+          icon: "success",
+          title: "Login is successfully",
+        });
+      }
+      const successData = response.data;
+      dispatch(postLoginSuccess(successData));
+    } catch (error) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+      Toast.fire({
+        icon: "error",
+        title: "Login not successfully",
+      });
+      console.log(error, "<======= Error");
+    }
+  };
 }
 
 export const fetchRepos = () => async (dispatch) => {
@@ -376,15 +374,28 @@ export function donwloadOutputBuild(id) {
   return async function (dispatch) {
     try {
       console.log(id, "<<di creator download");
-      const { data } = await axios({
+      const { data, headers } = await axios({
         method: "GET",
         url: `${BASE_URL}/tasks/${id}/download`,
         headers: {
           access_token:
             localStorage.access_token || sessionStorage.access_token,
         },
+        responseType: "blob",
       });
-      return data;
+      console.log(data, headers, "<<<data download");
+      const href = URL.createObjectURL(data);
+
+      // create "a" HTML element with href to file & click
+      const link = document.createElement("a");
+      link.href = href;
+      link.setAttribute("download", `${id}-build-output.tar`); //or any other extension
+      document.body.appendChild(link);
+      link.click();
+
+      // clean up "a" element & remove ObjectURL
+      document.body.removeChild(link);
+      URL.revokeObjectURL(href);
     } catch (err) {
       console.log(err);
     }

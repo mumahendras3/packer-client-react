@@ -28,7 +28,7 @@ const TaskDetail = () => {
   }
 
   function downloadOutput(id) {
-    console.log(id, "<<< di function download task");
+    // window.location.href = `http://localhost:3000/tasks/${taskDetail._id}/download`;
     dispatch(donwloadOutputBuild(id));
   }
   useEffect(() => {
@@ -66,7 +66,10 @@ const TaskDetail = () => {
                 }}
                 className="bg-green-600 px-5 py-1 rounded-md text-white my-3 text-sm flex items-center gap-3 font-medium"
               >
-                {" "}
+                <a
+                  href={`http://localhost:3000/tasks/${taskDetail._id}/download`}
+                  download
+                ></a>
                 <AiOutlineDownload className="text-white" /> Download Build
                 Output
               </button>
@@ -81,7 +84,7 @@ const TaskDetail = () => {
                   <div className="bg-[#FEBD2E] h-3 w-3 rounded-full"></div>
                   <div className="bg-[#2AC93F] h-3 w-3 rounded-full"></div>
                 </div>
-                <pre>{logs}</pre>
+                <pre>{logs.length === 0 ? "Loading" : logs}</pre>
               </div>
             )}
           </div>
