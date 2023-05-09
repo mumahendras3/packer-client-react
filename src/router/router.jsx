@@ -1,4 +1,7 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
+
+import Swal from 'sweetalert2'
+
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
@@ -7,7 +10,11 @@ import AddWatchlist from "../pages/AddWatchlist";
 import AddTask from "../pages/AddTask";
 import Layout from "../layout/Layout";
 import Tasklist from "../pages/Tasklist";
+
 import TaskDetail from "../pages/TaskDetail";
+
+
+
 
 const router = createBrowserRouter([
   {
@@ -40,10 +47,12 @@ const router = createBrowserRouter([
         path: "/tasklist",
         element: <Tasklist />,
       },
+
       {
         path: "/task/:id",
         element: <TaskDetail />,
       },
+
     ],
   },
   {
