@@ -1,3 +1,4 @@
+
 import PropTypes from 'prop-types';
 const CardTaskList = ({ task }) => {
    const statusClass = task.status === "Created" ? "bg-[#0070AF]" : (task.status === "Succeeded" ? 'bg-[#033AC7]' : (task.status === "Failed" ? 'bg-[#C70303]' : (task.status === "Running" ? 'bg-green-700' : 'bg-[#FFAF65]')));
@@ -19,9 +20,11 @@ const CardTaskList = ({ task }) => {
          <div className="status">
             <span className={`py-2 px-5 rounded text-white text-xs ${statusClass}`}>{task.status}</span>
          </div>
+
       </div>
-   )
-}
+    </Link>
+  );
+};
 
 CardTaskList.propTypes = {
    task: PropTypes.shape({
@@ -32,3 +35,4 @@ CardTaskList.propTypes = {
 }
 
 export default CardTaskList
+
