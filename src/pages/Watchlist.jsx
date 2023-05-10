@@ -15,7 +15,7 @@ const Watchlist = () => {
    }, [dispatch]);
 
    return (
-      <div id="watchlist">
+      <div id="watchlist" className="min-h-screen">
          {
             repos.length === 0 ? (
                <div id="content" className="flex justify-center">
@@ -36,15 +36,23 @@ const Watchlist = () => {
                   </div>
                </div>
             ) : (
-               <div id="content" className="mt-10">
-                  <div className="container mx-auto grid grid-cols-4 gap-4">
-                     {
-                        repos.map(repo => {
-                           return (
-                              <CardWatchlist key={repo._id} repo={repo} />
-                           )
-                        })
-                     }
+                  <div id="content" className="mt-5 container mx-auto">
+                     <div id="add" className="flex justify-end mb-5">
+                        <Link to={'/addwatchlist'}>
+                           <button className="flex items-center font-medium gap-2 mx-auto bg-[#B9D5FF] text-[#1F43CF] py-1 px-8 rounded-full border border-blue-500 mt-4 hover:bg-[#1F43CF] hover:text-white">
+                              <MdPlaylistAdd className="text-3xl" />
+                              Add Repository
+                           </button>
+                        </Link>
+                     </div>
+                     <div className=" grid grid-cols-5 gap-4">
+                        {
+                           repos.map(repo => {
+                              return (
+                                 <CardWatchlist key={repo._id} repo={repo} />
+                              )
+                           })
+                        }
                      </div>
                   </div>
             )

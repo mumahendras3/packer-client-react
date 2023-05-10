@@ -1,7 +1,5 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 
-import Swal from 'sweetalert2'
-
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
@@ -16,19 +14,31 @@ import TaskDetail from "../pages/TaskDetail";
 
 const router = createBrowserRouter([
   {
-    element: <Layout />,
+    path: "/",
+    element: <Layout/>,
     loader: () => {
       if (localStorage.access_token) {
-        return null;
+        return localStorage.access_token
       }
-      return redirect("/login");
+
+      return null
     },
     children: [
       {
         path: "/",
-        element: <Home />,
-      },
-
+        element: <Home/>,
+      }
+    ],
+  },
+  {
+    element: <Layout />,
+    loader: () => {
+      if (localStorage.access_token) {
+        return localStorage.access_token
+      }
+      return redirect("/login");
+    },
+    children: [
       {
         path: "/watchlist",
         element: <Watchlist />,

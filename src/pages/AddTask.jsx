@@ -18,6 +18,7 @@ const AddTask = () => {
    const [scheduleDate, setScheduleDate] = useState('')
    const [scheduleTime, setScheduleTime] = useState('')
    const [uploadFiles, setUploadFiles] = useState('')
+   const [isLoading, setIsLoading] = useState(false)
 
    const [repoId, setRepoId] = useState('');
    // console.log(repoId, '<<<<<<');
@@ -47,6 +48,8 @@ const AddTask = () => {
    }, [])
 
    async function handleSubmit(e) {
+      handleClosePopup()
+      setIsLoading(true)
       e.preventDefault()
       console.log(form)
       if (!form.repo || !form.releaseAsset || !form.containerImage || !form.runCommand ||  !form.additionalFiles) {
@@ -76,9 +79,10 @@ const AddTask = () => {
                })
             })
          })
-         await dispatch(addTaskRequest(form))
-         navigate('/tasklist')
-      }
+      })
+      await dispatch(addTaskRequest(form))
+      setIsLoading(false)
+      navigate('/tasklist')
    }
 
    function handleChangeSearch(e) {
@@ -166,15 +170,29 @@ const AddTask = () => {
       })
    }
    console.log(suggestion, "<<<ini hasil search")
+   if (isLoading) return (
+      <div className="flex justify-center items-center mt-80">
+      <div className="">
+         <div
+            class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status">
+            <span
+               class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+            >Loading...</span
+            >
+         </div>
+      </div>
+      </div>
+   )
    return (
-      <div id="addTask">
+      <div id="addTask" className="min-h-screen">
          <div className="container mx-auto shadow border rounded-md p-10 mt-10 flex justify-between items-start">
             <div id="left" className="w-1/2">
                <div id="heading" className="mb-5">
                   <h1 className="text-2xl font-bold">Add Task</h1>
                   <p className="text-sm text-gray-500">adding your task</p>
                </div>
-               <form onSubmit={handleSubmit}>
+               <form onSubmit={handleSubmit} autocomplete="off">
                   <div id="input" className="flex flex-col gap-8">
                      <div id="repositoryname" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Repository</label>

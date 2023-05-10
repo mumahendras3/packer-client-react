@@ -4,7 +4,7 @@ import { FaDocker, FaServer } from "react-icons/fa";
 
 const Home = () => {
     return (
-        <div id="Home">
+        <div id="Home" className='min-h-screen'>
             <div id="hero" className='my-10'>
                 <div className="container mx-auto flex items-center">
                     <div className="left w-1/2 flex flex-col">

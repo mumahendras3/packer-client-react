@@ -3,8 +3,9 @@ import { identityImg, logo } from "../assets/img";
 import { useState } from "react";
 import { FaSignOutAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
+import PropTypes from 'prop-types';
 
-const Navbar = () => {
+const Navbar = ({ isAuthenticated }) => {
   const navigate = useNavigate();
   const [logOutModal, setlogOutModal] = useState(false);
   function handleModal() {
@@ -29,37 +30,9 @@ const Navbar = () => {
     })
     navigate("/login");
   }
+
   return (
     <>
-      {/* <nav id="navbar" className='py-4 bg-white sticky top-0 left-0 right-0 shadow-md'>
-            <div className="container mx-auto flex justify-between items-center" >
-               <div id="logoBrand" className='w-2/12'>
-                  <Link to={'/'}>
-                     <img src={logo} className='w-[70%]' alt="" />
-                  </Link>
-               </div>
-               <div id="menuLink" className='flex items-center gap-5'>
-                  <Link to={'/'}>
-                     <span className='hover:text-[#1F43CF] font-medium'>Home</span>
-                  </Link>
-                  <Link to={'/watchlist'}>
-                     <span className='hover:text-[#1F43CF] font-medium'>Watclist</span>
-                  </Link>
-                  <Link to={'/taslist'}>
-                     <span className='hover:text-[#1F43CF] font-medium'>Task</span>
-                  </Link>
-               </div>
-               <div id="actions" className='flex items-center gap-4'>
-                  <Link to={'/login'}>
-                     <button className='bg-transparent border border-[#1F43CF] py-1 px-7 rounded-md text-[#1F43CF] font-normal text-base'>Login</button>
-                  </Link>
-                  <Link to={'/register'}>
-                     <button className='bg-[#1F43CF] py-1 px-7 font-medium] text-white font-medium rounded-md text-base'>Signup</button>
-                  </Link>
-               </div>
-            </div >
-         </nav > */}
-      {/* isLogin = true */}
       <nav id="navbar" className="flex">
         <div className="container mx-auto flex justify-between items-center relative">
           <div id="logoBrand" className="w-2/12">
@@ -80,20 +53,36 @@ const Navbar = () => {
               <span className="hover:text-[#1F43CF] font-medium">Task</span>
             </Link>
           </div>
-          <div id="actions" onClick={handleModal} className="cursor-pointer">
-            <div className="flex gap-3 items-center">
-              <div id="name">
-                <span>Hi, {localStorage.getItem("username")}</span>
+          {
+            !isAuthenticated && (
+              <div id="actions" className='flex items-center gap-4'>
+                <Link to={'/login'}>
+                  <button className='bg-transparent border border-[#1F43CF] py-1 px-7 rounded-md text-[#1F43CF] font-normal text-base'>Login</button>
+                </Link>
+                <Link to={'/register'}>
+                  <button className='bg-[#1F43CF] py-1 px-7 font-medium] text-white font-medium rounded-md text-base'>Register</button>
+                </Link>
               </div>
-              <div id="avatar">
-                <img
-                  src={identityImg}
-                  className="w-[35px] h-[35px] rounded-full object-cover"
-                  alt=""
-                />
+            )
+          }
+          {
+            isAuthenticated && (
+              <div id="actions" onClick={handleModal} className="cursor-pointer">
+                <div className="flex gap-3 items-center">
+                  <div id="name">
+                    <span>Hi, {localStorage.getItem("username")}</span>
+                  </div>
+                  <div id="avatar">
+                    <img
+                      src={identityImg}
+                      className="w-[35px] h-[35px] rounded-full object-cover"
+                      alt=""
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            )
+          }
           {logOutModal && (
             <div
               id="modalLogout"
@@ -113,5 +102,9 @@ const Navbar = () => {
     </>
   );
 };
+
+Navbar.propTypes = {
+  isAuthenticated: PropTypes.string.isRequired
+}
 
 export default Navbar;
