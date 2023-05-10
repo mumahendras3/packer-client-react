@@ -17,8 +17,12 @@ const Login = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    await dispatch(postLogin(form));    
-    navigate("/");
+    dispatch(postLogin(form)).then(()=>{
+      navigate("/")
+    }).catch(()=>{
+      navigate("/login")
+    });    
+    ;
   }
 
   function handleChange(e) {
