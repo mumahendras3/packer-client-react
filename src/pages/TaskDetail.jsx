@@ -8,7 +8,7 @@ const TaskDetail = () => {
       setviewLogs(!viewLogs)
    }
    return (
-      <div id="taskDetail">
+      <div id="taskDetail" className="min-h-screen">
          <div className="container mx-auto mt-10">
             <div id="top" className="bg-white shadow border rounded-md p-4">
                <div id="cardData">
