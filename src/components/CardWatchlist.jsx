@@ -9,7 +9,7 @@ const CardWatchlist = ({ repo }) => {
       <div id="card" className="bg-white border p-5 rounded-md relative group hover:bg-slate-100">
          <div id="header" className='flex justify-between mb-3 items-center group-hover:text-black'>
             <div id="title">
-               <h1 className='font-bold text-base'>Mailspring</h1>
+               <h1 className='font-bold text-base'>{repo.name}</h1>
                <p className='text-xs text-gray-400'>{repo.ownerName}</p>
             </div>
             <div id="delete" className='absolute right-0 top-0 m-2 bg-red-50 p-1 rounded cursor-pointer group-hover:bg-white '>

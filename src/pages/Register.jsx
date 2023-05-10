@@ -3,6 +3,9 @@ import { logo, signUp } from "../assets/img";
 import { useDispatch } from "react-redux";
 import { postRegister } from "../store/action/actionCreator";
 import { useState } from "react";
+import Swal from "sweetalert2";
+
+
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -18,6 +21,21 @@ const Register = () => {
     e.preventDefault();
     dispatch(postRegister(form))
       .then(() => {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        Toast.fire({
+          icon: 'success',
+          title: 'Register is successfully'
+        })
         navigate("/login");
       })
       .catch((err) => console.log(err));
@@ -32,6 +50,7 @@ const Register = () => {
     });
   }
 
+  
   return (
     <div id="signUp" className="">
       <div id="content" className="flex justify-start items-center h-screen">

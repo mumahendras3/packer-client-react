@@ -3,6 +3,9 @@ import { loginImg, logo } from "../assets/img";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { postLogin } from "../store/action/actionCreator";
+import Swal from "sweetalert2";
+
+
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -15,7 +18,7 @@ const Login = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    await dispatch(postLogin(form));
+    await dispatch(postLogin(form));    
     navigate("/");
   }
 
