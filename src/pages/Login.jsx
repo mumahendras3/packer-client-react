@@ -3,7 +3,6 @@ import { loginImg, logo } from "../assets/img";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { postLogin } from "../store/action/actionCreator";
-import Swal from "sweetalert2";
 
 
 

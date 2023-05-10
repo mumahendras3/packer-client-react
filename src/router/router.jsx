@@ -1,7 +1,5 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 
-import Swal from 'sweetalert2'
-
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";

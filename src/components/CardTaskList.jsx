@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { FaCircle, FaRegEye } from "react-icons/fa";
 import { MdDelete } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 const CardTaskList = ({ task }) => {
    const statusBG = task.status === "Created" ? "text-green-800" : (task.status === "Succeeded" ? 'text-[#033AC7]' : (task.status === "Failed" ? 'text-[#C70303]' : (task.status === "Running" ? 'text-green-700' : 'text-[#FFAF65]')));
@@ -33,7 +34,7 @@ const CardTaskList = ({ task }) => {
             </div>
          </div>
       </div>
-  );
+   );
 };
 
 CardTaskList.propTypes = {
