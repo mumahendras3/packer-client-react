@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FaSignOutAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
 
-const Navbar = () => {
+const Navbar = ({ isAuthenticated }) => {
   const navigate = useNavigate();
   const [logOutModal, setlogOutModal] = useState(false);
   function handleModal() {
@@ -29,6 +29,7 @@ const Navbar = () => {
     })
     navigate("/login");
   }
+
   return (
     <>
       {/* <nav id="navbar" className='py-4 bg-white sticky top-0 left-0 right-0 shadow-md'>
@@ -80,6 +81,24 @@ const Navbar = () => {
               <span className="hover:text-[#1F43CF] font-medium">Task</span>
             </Link>
           </div>
+          {
+            !isAuthenticated && (
+              <div>
+                <button className="bg-[#1F43CF] py-2 mx-5 text-white font-medium rounded-md w-24 gap-5">
+                  <Link to={'/login'}>
+                    Login
+                  </Link>
+                </button>
+                <button className="bg-[#1F43CF] py-2 mx-5 text-white font-medium rounded-md w-24 gap-5">
+                  <Link to={'/register'}>
+                    Register
+                  </Link>
+                </button>
+              </div>
+            )
+          }
+          {
+            isAuthenticated && (
           <div id="actions" onClick={handleModal} className="cursor-pointer">
             <div className="flex gap-3 items-center">
               <div id="name">
@@ -94,6 +113,8 @@ const Navbar = () => {
               </div>
             </div>
           </div>
+            )
+          }
           {logOutModal && (
             <div
               id="modalLogout"
