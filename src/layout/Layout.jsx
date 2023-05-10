@@ -8,12 +8,12 @@ const Layout = () => {
     return (
         <div className="min-h-screen flex flex-col">
             <div className='py-4 bg-white sticky top-0 left-0 right-0 shadow'>
-                <Navbar isAuthenticated={isAuthenticated}/>
-            </div>
-            <div className="grow">
-                <Outlet />
-            </div>
+                <Navbar isAuthenticated={`${isAuthenticated}`} />
+                <div className="grow">
+                    <Outlet />
+                </div>
                 <Footer />  
+            </div>
         </div>
     )
 }

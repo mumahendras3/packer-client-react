@@ -31,10 +31,6 @@ const AddTask = () => {
    const [showPopup, setShowPopup] = useState(false);
    const handleShowPopup = () => setShowPopup(true);
    const handleClosePopup = () => setShowPopup(false);
-   function handleSubmit(e) {
-      e.preventDefault();
-      console.log('submit')
-   }
    function handleOnChangeRepo(event) {
       setRepoId(event.target.value);
       // console.log(repoId, '<<<<<<<<<<<');
@@ -42,9 +38,9 @@ const AddTask = () => {
 
    useEffect(() => {
       dispatch(fetchRepos())
-   }, [])
+   }, [dispatch])
 
-   async function handleSubmit(e) {
+   async function handleSubmitForm(e) {
       handleClosePopup()
       setIsLoading(true)
       e.preventDefault()
@@ -57,14 +53,14 @@ const AddTask = () => {
             })
          })
       })
-      await dispatch(addTaskRequest(form))
+      dispatch(addTaskRequest(form))
       setIsLoading(false)
       navigate('/tasklist')
    }
 
    function handleChangeSearch(e) {
       e.preventDefault()
-      const { name, value } = e.target
+      const { value } = e.target
       console.log(value, 'fungsi search');
       dispatch(fetchSearchContainer(value)).then((data) => {
          console.log(data, "<<ini data")
@@ -80,7 +76,7 @@ const AddTask = () => {
 
    function handleChangeDate(e) {
       e.preventDefault()
-      const { name, value } = e.target
+      const { value } = e.target
       setScheduleDate(value)
       console.log(value, 'ini value');
       const splitDate = value.split('-')
@@ -107,7 +103,7 @@ const AddTask = () => {
 
    function handleChangeTime(e) {
       e.preventDefault()
-      const { name, value } = e.target
+      const { value } = e.target
       setScheduleTime(value)
       // const date = new Date(scheduleTime)
       const splitTime = value.split(':')
@@ -151,10 +147,10 @@ const AddTask = () => {
       <div className="flex justify-center items-center mt-80">
       <div className="">
          <div
-            class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+               className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
             role="status">
             <span
-               class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                  className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
             >Loading...</span
             >
          </div>
@@ -169,7 +165,7 @@ const AddTask = () => {
                   <h1 className="text-2xl font-bold">Add Task</h1>
                   <p className="text-sm text-gray-500">adding your task</p>
                </div>
-               <form onSubmit={handleSubmit} autocomplete="off">
+               <form onSubmit={handleSubmitForm} autoComplete="false">
                   <div id="input" className="flex flex-col gap-8">
                      <div id="repositoryname" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Repository</label>
