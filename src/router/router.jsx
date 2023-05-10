@@ -12,8 +12,6 @@ import Tasklist from "../pages/Tasklist";
 import TaskDetail from "../pages/TaskDetail";
 
 
-
-
 const router = createBrowserRouter([
   {
     path: "/",

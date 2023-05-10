@@ -25,7 +25,7 @@ const Navbar = ({ isAuthenticated }) => {
       }
     })
     Toast.fire({
-      icon: 'error',
+      icon: 'success',
       title: 'Logout is successfully'
     })
     navigate("/login");
