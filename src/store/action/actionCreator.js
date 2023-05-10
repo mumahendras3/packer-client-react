@@ -187,6 +187,7 @@ export function postLogin(data = {}) {
         icon: "error",
         title: "Login not successfully",
       });
+      throw error
       console.log(error, "<======= Error");
     }
   };

@@ -94,7 +94,7 @@ const AddWatchlist = () => {
                            placeholder="Enter owner name"
                         />
                      </div>
-                     <div id="githubAccessToken" className="flex flex-col">
+                     {/* <div id="githubAccessToken" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="githubAccessToken">Github access token ( optional )</label>
                         <input
                            value={githubAccessToken}
@@ -104,7 +104,7 @@ const AddWatchlist = () => {
                            className="border border-gray-400 py-3 px-4 text-sm rounded mt-2 w-full"
                            placeholder="* * * * * *"
                         />
-                     </div>
+                     </div> */}
                      <button className="bg-[#1F43CF] py-3 text-white font-medium rounded-md">Add Repository</button>
                   </div>
                </form>

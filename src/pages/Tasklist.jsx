@@ -50,7 +50,7 @@ const Tasklist = () => {
             ) : (
                   <div id="content" className="container mx-auto ">
                      <div id="add" className="flex justify-end mb-8">
-                        <Link to={'/addwatchlist'}>
+                        <Link to={'/addtask'}>
                            <button className="flex items-center font-medium gap-2 mx-auto bg-[#B9D5FF] text-[#1F43CF] py-1 px-8 rounded-full border border-blue-500 mt-4 hover:bg-[#1F43CF] hover:text-white">
                               <MdPlaylistAdd className="text-3xl" />
                               Add Task
