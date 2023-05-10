@@ -6,7 +6,7 @@ const CardWatchlist = ({ repo }) => {
    return (
       <div id="card" className="bg-white shadow border p-4 rounded-md">
          <div id="image">
-            <img src="https://avatars.githubusercontent.com/u/1065759?s=200&v=4" className="w-[85px] h-[85px] rounded-full object-cover border" alt="" />
+            <img src={repo.ownerAvatar} className="w-[85px] h-[85px] rounded-full object-cover border" alt="" />
          </div>
          <div id="title" className="mt-3">
             <h1 className="text-xl font-semibold">{repo.name}</h1>

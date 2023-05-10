@@ -84,7 +84,7 @@ const TaskDetail = () => {
                   <div className="bg-[#FEBD2E] h-3 w-3 rounded-full"></div>
                   <div className="bg-[#2AC93F] h-3 w-3 rounded-full"></div>
                 </div>
-                <pre>{logs.length === 0 ? "Loading" : logs}</pre>
+                <pre>{logs.length === 0 ? "Loading.." : logs}</pre>
               </div>
             )}
           </div>

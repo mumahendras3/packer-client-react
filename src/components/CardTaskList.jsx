@@ -21,7 +21,7 @@ const CardTaskList = ({ task }) => {
       <div id="identity" className="flex items-center gap-4">
         <div className="logo">
           <img
-            src="https://avatars.githubusercontent.com/u/1065759?s=200&v=4"
+            src={task.repo.ownerAvatar}
             className="w-[50px] h-[50px] rounded-full object-cover"
             alt=""
           />
