@@ -3,7 +3,6 @@ import { identityImg, logo } from "../assets/img";
 import { useState } from "react";
 import { FaSignOutAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
-import PropTypes from 'prop-types';
 
 const Navbar = ({ isAuthenticated }) => {
   const navigate = useNavigate();
@@ -102,9 +101,5 @@ const Navbar = ({ isAuthenticated }) => {
     </>
   );
 };
-
-Navbar.propTypes = {
-  isAuthenticated: PropTypes.string.isRequired
-}
 
 export default Navbar;

@@ -8,7 +8,7 @@ const Layout = () => {
     return (
         <div className="min-h-screen flex flex-col">
             <div className='py-4 bg-white sticky top-0 left-0 right-0 shadow'>
-                <Navbar isAuthenticated={`${isAuthenticated}`} />
+                <Navbar isAuthenticated={isAuthenticated} />
                 <div className="grow">
                     <Outlet />
                 </div>
