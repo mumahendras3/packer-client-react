@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaColumns } from "react-icons/fa";
 import { BsCloudArrowDownFill } from "react-icons/bs";
 import { useParams } from "react-router-dom";
@@ -27,6 +27,28 @@ const TaskDetail = () => {
       dispatch(fetchTaskLogs(id));
    }
 
+   // A workaround for setInterval not having access to React's reactive states
+   // See: https://overreacted.io/making-setinterval-declarative-with-react-hooks/
+   function useInterval(callback, delay) {
+      const savedCallback = useRef();
+
+      // Remember the latest callback.
+      useEffect(() => {
+         savedCallback.current = callback;
+      }, [callback]);
+
+      // Set up the interval.
+      useEffect(() => {
+         function tick() {
+            savedCallback.current();
+         }
+         if (delay !== null) {
+            let id = setInterval(tick, delay);
+            return () => clearInterval(id);
+         }
+      }, [delay]);
+   }
+
    function downloadOutput(id) {
       // window.location.href = `http://localhost:3000/tasks/${taskDetail._id}/download`;
       dispatch(donwloadOutputBuild(id));
@@ -34,6 +56,12 @@ const TaskDetail = () => {
    useEffect(() => {
       dispatch(fetchDetailTaskById(params.id));
    }, [dispatch, params.id]);
+
+   useInterval(() => {
+      if (viewLogs) {
+         dispatch(fetchTaskLogs(params.id))
+      }
+   }, 2000);
 
    return (
       <div id="taskDetail">
@@ -53,31 +81,31 @@ const TaskDetail = () => {
                </div>
                <div id="bottom">
                   <div id="action" className="flex gap-4 items-center">
-                        {
-                           taskDetail.status === "Created" || taskDetail.status === "Scheduled" || (<button
-                              onClick={() => {
-                                 handleLogsView(taskDetail._id);
-                              }}
-                              className="bg-[#1F43CF] px-5 py-1 rounded-md text-white my-3 text-sm"
-                           >
-                              View Logs
-                           </button>)
-                        }
-                        {
-                           taskDetail.status !== "Succeeded" || (<button
-                              onClick={() => {
-                                 downloadOutput(taskDetail._id);
-                              }}
-                              className="bg-green-600 px-5 py-1 rounded-md text-white my-3 text-sm flex items-center gap-3 font-medium"
-                           >
-                              <a
-                                 href={`http://localhost:3000/tasks/${taskDetail._id}/download`}
-                                 download
-                              ></a>
-                              <BsCloudArrowDownFill className="text-white" /> Download Build
-                              Output
-                           </button>)
-                        }
+                     {
+                        taskDetail.status === "Created" || taskDetail.status === "Scheduled" || (<button
+                           onClick={() => {
+                              handleLogsView(taskDetail._id);
+                           }}
+                           className="bg-[#1F43CF] px-5 py-1 rounded-md text-white my-3 text-sm"
+                        >
+                           View Logs
+                        </button>)
+                     }
+                     {
+                        taskDetail.status !== "Succeeded" || (<button
+                           onClick={() => {
+                              downloadOutput(taskDetail._id);
+                           }}
+                           className="bg-green-600 px-5 py-1 rounded-md text-white my-3 text-sm flex items-center gap-3 font-medium"
+                        >
+                           <a
+                              href={`http://localhost:3000/tasks/${taskDetail._id}/download`}
+                              download
+                           ></a>
+                           <BsCloudArrowDownFill className="text-white" /> Download Build
+                           Output
+                        </button>)
+                     }
                   </div>
                   {viewLogs && (
                      <div
