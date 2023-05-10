@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchRepos, addTaskRequest, fetchSearchContainer, addFilesRequest } from "../store/action/actionCreator";
 import './custom.css'
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+
+
 
 const AddTask = () => {
    const navigate = useNavigate()
@@ -25,7 +28,7 @@ const AddTask = () => {
       containerImage: '',
       runCommand: '',
       runAt: null,
-      additionalFiles: []
+      // additionalFiles: []
    })
 
    const [showPopup, setShowPopup] = useState(false);
@@ -44,6 +47,17 @@ const AddTask = () => {
       handleClosePopup()
       setIsLoading(true)
       e.preventDefault()
+      console.log(form, '<<<<<<<<<<<<<<<<<')
+      console.log(uploadFiles, '<<<<<<<<<<<<<<')
+      // await dispatch(addFilesRequest(uploadFiles)).then((data) => {
+      //    setForm({
+      //       ...form,
+      //       additionalFiles: data.map(el => {
+      //          return el.id
+      //       })
+      //    })
+      // })
+      await dispatch(addTaskRequest(form, uploadFiles))
       console.log(form)
       await dispatch(addFilesRequest(uploadFiles)).then((data) => {
          setForm({
@@ -54,6 +68,24 @@ const AddTask = () => {
          })
       })
       dispatch(addTaskRequest(form))
+      if (!form.repo || !form.releaseAsset || !form.containerImage || !form.runCommand ||  !uploadFiles) {
+         console.log("masuk error repo");
+         const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+          Toast.fire({
+            icon: 'error',
+            title: 'Form is Required'
+          })
+      }
       setIsLoading(false)
       navigate('/tasklist')
    }
@@ -165,7 +197,7 @@ const AddTask = () => {
                   <h1 className="text-2xl font-bold">Add Task</h1>
                   <p className="text-sm text-gray-500">adding your task</p>
                </div>
-               <form onSubmit={handleSubmitForm} autoComplete="false">
+               <form onSubmit={handleSubmit} autoComplete="off">
                   <div id="input" className="flex flex-col gap-8">
                      <div id="repositoryname" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Repository</label>
@@ -276,5 +308,6 @@ const AddTask = () => {
       </div>
    )
 }
+
 
 export default AddTask

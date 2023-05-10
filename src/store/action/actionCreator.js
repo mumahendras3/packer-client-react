@@ -272,17 +272,33 @@ export const fetchTasks = () => {
   };
 };
 
-export function addTaskRequest(data = {}) {
+export function addTaskRequest(data = {}, files = []) {
   return async function (dispatch) {
     console.log(data, "datanya<<<");
     try {
+      const formData = new FormData();
+      for (const file of files) {
+        formData.append("additionalFiles", file);
+      }
+      for (const field of Object.keys(data)) {
+        if (data[field]) {
+            if (field === 'runAt') {
+                for (const key of Object.keys(data[field])) {
+                    formData.append(`${field}[${key}]`, data[field][key])
+                }
+            } else {
+                formData.append(field, data[field])
+            }
+        }
+      }
       const response = await axios({
         method: "post",
         url: `${BASE_URL}/tasks`,
-        data: data,
+        data: formData,
         headers: {
-          access_token:
-            localStorage.access_token || sessionStorage.access_token,
+            "Content-Type": "multipart/form-data",
+            access_token: 
+                localStorage.access_token || sessionStorage.access_token,
         },
       });
       const successData = response.data;
@@ -404,7 +420,12 @@ export function donwloadOutputBuild(id) {
       document.body.removeChild(link);
       URL.revokeObjectURL(href);
     } catch (err) {
-      console.log(err);
+      console.log(err, 'ini error download');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Build output not found!',
+      })
     }
   };
 }
