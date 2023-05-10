@@ -25,7 +25,7 @@ const AddTask = () => {
       containerImage: '',
       runCommand: '',
       runAt: null,
-      additionalFiles: []
+      // additionalFiles: []
    })
 
    const [showPopup, setShowPopup] = useState(false);
@@ -48,16 +48,17 @@ const AddTask = () => {
       handleClosePopup()
       setIsLoading(true)
       e.preventDefault()
-      console.log(form)
-      await dispatch(addFilesRequest(uploadFiles)).then((data) => {
-         setForm({
-            ...form,
-            additionalFiles: data.map(el => {
-               return el.id
-            })
-         })
-      })
-      await dispatch(addTaskRequest(form))
+      console.log(form, '<<<<<<<<<<<<<<<<<')
+      console.log(uploadFiles, '<<<<<<<<<<<<<<')
+      // await dispatch(addFilesRequest(uploadFiles)).then((data) => {
+      //    setForm({
+      //       ...form,
+      //       additionalFiles: data.map(el => {
+      //          return el.id
+      //       })
+      //    })
+      // })
+      await dispatch(addTaskRequest(form, uploadFiles))
       setIsLoading(false)
       navigate('/tasklist')
    }
@@ -169,7 +170,7 @@ const AddTask = () => {
                   <h1 className="text-2xl font-bold">Add Task</h1>
                   <p className="text-sm text-gray-500">adding your task</p>
                </div>
-               <form onSubmit={handleSubmit} autocomplete="off">
+               <form onSubmit={handleSubmit} autoComplete="off">
                   <div id="input" className="flex flex-col gap-8">
                      <div id="repositoryname" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Repository</label>
