@@ -45,7 +45,7 @@ const Watchlist = () => {
                            </button>
                         </Link>
                      </div>
-                     <div className=" grid grid-cols-5 gap-4">
+                     <div className=" grid grid-cols-4 gap-4">
                         {
                            repos.map(repo => {
                               return (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaColumns } from "react-icons/fa";
-import { AiOutlineDownload } from "react-icons/ai";
+import { BsCloudArrowDownFill } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -53,27 +53,31 @@ const TaskDetail = () => {
                </div>
                <div id="bottom">
                   <div id="action" className="flex gap-4 items-center">
-                     <button
-                        onClick={() => {
-                           handleLogsView(taskDetail._id);
-                        }}
-                        className="bg-[#1F43CF] px-5 py-1 rounded-md text-white my-3 text-sm"
-                     >
-                        View Logs
-                     </button>
-                     <button
-                        onClick={() => {
-                           downloadOutput(taskDetail._id);
-                        }}
-                        className="bg-green-600 px-5 py-1 rounded-md text-white my-3 text-sm flex items-center gap-3 font-medium"
-                     >
-                        <a
-                           href={`http://localhost:3000/tasks/${taskDetail._id}/download`}
-                           download
-                        ></a>
-                        <AiOutlineDownload className="text-white" /> Download Build
-                        Output
-                     </button>
+                        {
+                           taskDetail.status === "Created" || taskDetail.status === "Scheduled" || (<button
+                              onClick={() => {
+                                 handleLogsView(taskDetail._id);
+                              }}
+                              className="bg-[#1F43CF] px-5 py-1 rounded-md text-white my-3 text-sm"
+                           >
+                              View Logs
+                           </button>)
+                        }
+                        {
+                           taskDetail.status !== "Succeeded" || (<button
+                              onClick={() => {
+                                 downloadOutput(taskDetail._id);
+                              }}
+                              className="bg-green-600 px-5 py-1 rounded-md text-white my-3 text-sm flex items-center gap-3 font-medium"
+                           >
+                              <a
+                                 href={`http://localhost:3000/tasks/${taskDetail._id}/download`}
+                                 download
+                              ></a>
+                              <BsCloudArrowDownFill className="text-white" /> Download Build
+                              Output
+                           </button>)
+                        }
                   </div>
                   {viewLogs && (
                      <div

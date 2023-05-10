@@ -13,6 +13,10 @@ import {
   ADD_FILES_SUCCESS,
   FETCH_TASK_DETAIL_SUCCESS,
   FETCH_TASK_LOGS_SUCCESS,
+  DELETE_REPO_FAILURE,
+  DELETE_REPO_SUCCESS,
+  DELETE_TASK_SUCCESS,
+  DELETE_TASK_FAILURE,
 } from "../action/actionTypes";
 
 const defaultValue = {
@@ -102,6 +106,30 @@ export default function rootReducer(state = defaultValue, action) {
     return {
       ...state,
       getLogs: action.payload,
+    };
+  } else if (action.type === DELETE_REPO_SUCCESS) {
+    return {
+      ...state,
+      error: null,
+      loading: false
+    };
+  } else if (action.type === DELETE_REPO_FAILURE) {
+    return {
+      ...state,
+      error: action.payload,
+      loading: false
+    };
+  } else if (action.type === DELETE_TASK_SUCCESS) {
+    return {
+      ...state,
+      error: null,
+      loading: false
+    };
+  } else if (action.type === DELETE_TASK_FAILURE) {
+    return {
+      ...state,
+      error: action.payload,
+      loading: false
     };
   }
 

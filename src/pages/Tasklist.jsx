@@ -16,7 +16,7 @@ const Tasklist = () => {
       dispatch(fetchTasks());
    }, [dispatch]);
 
-   console.log(tasks)
+   console.log(tasks, '<<<<< data task')
 
    if (loading) {
       return <p>Loading...</p>;
@@ -50,18 +50,18 @@ const Tasklist = () => {
             ) : (
                   <div id="content" className="container mx-auto ">
                      <div id="add" className="flex justify-end mb-8">
-                        <Link to={'/addwatchlist'}>
+                        <Link to={'/addtask'}>
                            <button className="flex items-center font-medium gap-2 mx-auto bg-[#B9D5FF] text-[#1F43CF] py-1 px-8 rounded-full border border-blue-500 mt-4 hover:bg-[#1F43CF] hover:text-white">
                               <MdPlaylistAdd className="text-3xl" />
                               Add Task
                            </button>
                         </Link>
                      </div>
-                     <div id="taskCard" className="grid grid-cols-3 gap-4">
+                     <div id="taskCard" className="grid grid-cols-2 gap-4">
                         {tasks && (
-                           tasks.map((task, index) => {
+                           tasks.map((task) => {
                               return (
-                                 <CardTaskList key={index} task={task} />
+                                 <CardTaskList key={task._id} task={task} />
                               )
                            })
                         )

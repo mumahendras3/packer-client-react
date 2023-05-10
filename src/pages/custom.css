@@ -3,8 +3,12 @@
     border-right: 1px solid grey;
     border-left: 1px solid grey;
     border-bottom: 1px solid grey;
+    padding: 5px;
+    border-radius : 3px;
+    margin : -2px
 }
 
 .suggestion:hover {
-    background-color: grey;
+    background-color: #1F43CF;
+    color: white;
 }

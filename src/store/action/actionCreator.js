@@ -14,6 +14,10 @@ import {
   ADD_FILES_SUCCESS,
   FETCH_TASK_DETAIL_SUCCESS,
   FETCH_TASK_LOGS_SUCCESS,
+  DELETE_REPO_SUCCESS,
+  DELETE_REPO_FAILURE,
+  DELETE_TASK_SUCCESS,
+  DELETE_TASK_FAILURE,
 } from "./actionTypes";
 import Swal from "sweetalert2";
 
@@ -226,6 +230,7 @@ export const addRepoRequest = (formData) => async (dispatch) => {
     // dispatch action to update state with the new repository
     console.log(data);
     dispatch(addRepoSuccess(data));
+    dispatch(fetchRepos())
   } catch (err) {
     // dispatch action to update state with error
     dispatch(addRepoFailure(err));
@@ -259,6 +264,7 @@ export const fetchTasks = () => {
         },
       };
       const { data } = await axios(axiosOptions);
+      console.log(data)
       dispatch(getTasksSuccess(data));
     } catch (error) {
       dispatch(getTasksFailure(error));
@@ -308,6 +314,7 @@ export function addTaskRequest(data = {}, files = []) {
         });
       }
       dispatch(postRegisterSuccess(successData));
+      dispatch(fetchTasks())
     } catch (error) {
       console.log(error, "<======= Error");
     }
@@ -387,7 +394,7 @@ export function fetchDetailTaskById(id) {
 }
 
 export function donwloadOutputBuild(id) {
-  return async function (dispatch) {
+  return async function () {
     try {
       console.log(id, "<<di creator download");
       const { data, headers } = await axios({
@@ -441,3 +448,53 @@ export function fetchTaskLogs(id) {
     }
   };
 }
+
+export const deleteRepo = (id) => {
+  return async (dispatch) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      const response = await axios.delete(`${BASE_URL}/repos/${id}`, {
+        headers: {
+          "access_token": token
+        }
+      });
+      console.log(response.data);
+      dispatch(fetchRepos());
+      dispatch({
+        type: DELETE_REPO_SUCCESS,
+        payload: response.data.message
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: DELETE_REPO_FAILURE,
+        payload: error.message
+      });
+    }
+  };
+};
+
+export const deleteTask = (id) => {
+  return async (dispatch) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      const response = await axios.delete(`${BASE_URL}/tasks/${id}`, {
+        headers: {
+          "access_token": token
+        }
+      });
+      console.log(response.data);
+      dispatch(fetchTasks());
+      dispatch({
+        type: DELETE_TASK_SUCCESS,
+        payload: response.data.message
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: DELETE_TASK_FAILURE,
+        payload: error.message
+      });
+    }
+  };
+};
