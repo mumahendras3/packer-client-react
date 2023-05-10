@@ -26,7 +26,7 @@ const AddWatchlist = () => {
       } else if (sessionStorage.access_token && githubAccessToken) {
          sessionStorage.authorization = `Bearer ${githubAccessToken}`;
       }
-      if (!formData.name && !formData.ownerName) {
+      if (!formData.name || !formData.ownerName) {
          const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -40,7 +40,7 @@ const AddWatchlist = () => {
           })
           Toast.fire({
             icon: 'error',
-            title: 'Name and OwnerName is Required'
+            title: 'Name and Owner Name is Required'
           })
       } else {
          const Toast = Swal.mixin({
@@ -63,7 +63,7 @@ const AddWatchlist = () => {
       }
    };
    return (
-      <div id="addwatchlist">
+      <div id="addwatchlist" className="min-h-screen">
          <div className="container mx-auto shadow border rounded-md p-10 mt-10 flex justify-between items-center">
             <div id="left" className="w-1/2">
                <div id="heading" className="mb-5">

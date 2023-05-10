@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchRepos, addTaskRequest, fetchSearchContainer, addFilesRequest } from "../store/action/actionCreator";
 import './custom.css'
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+
+
 
 const AddTask = () => {
    const navigate = useNavigate()
@@ -59,6 +62,25 @@ const AddTask = () => {
       //    })
       // })
       await dispatch(addTaskRequest(form, uploadFiles))
+      console.log(form)
+      if (!form.repo || !form.releaseAsset || !form.containerImage || !form.runCommand ||  !uploadFiles) {
+         console.log("masuk error repo");
+         const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+          Toast.fire({
+            icon: 'error',
+            title: 'Form is Required'
+          })
+      }
       setIsLoading(false)
       navigate('/tasklist')
    }
@@ -163,7 +185,7 @@ const AddTask = () => {
       </div>
    )
    return (
-      <div id="addTask">
+      <div id="addTask" className="min-h-screen">
          <div className="container mx-auto shadow border rounded-md p-10 mt-10 flex justify-between items-start">
             <div id="left" className="w-1/2">
                <div id="heading" className="mb-5">
@@ -281,5 +303,6 @@ const AddTask = () => {
       </div>
    )
 }
+
 
 export default AddTask
