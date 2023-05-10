@@ -197,7 +197,7 @@ const AddTask = () => {
                   <h1 className="text-2xl font-bold">Add Task</h1>
                   <p className="text-sm text-gray-500">adding your task</p>
                </div>
-               <form onSubmit={handleSubmit} autoComplete="off">
+               <form onSubmit={handleSubmitForm} autoComplete="off">
                   <div id="input" className="flex flex-col gap-8">
                      <div id="repositoryname" className="flex flex-col">
                         <label className="text-gray-500" htmlFor="">Repository</label>
