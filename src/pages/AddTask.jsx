@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchRepos, addTaskRequest, fetchSearchContainer, addFilesRequest } from "../store/action/actionCreator";
 import './custom.css'
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+
+
 
 const AddTask = () => {
    const navigate = useNavigate()
@@ -46,16 +49,36 @@ const AddTask = () => {
    async function handleSubmit(e) {
       e.preventDefault()
       console.log(form)
-      await dispatch(addFilesRequest(uploadFiles)).then((data) => {
-         setForm({
-            ...form,
-            additionalFiles: data.map(el => {
-               return el.id
+      if (!form.repo || !form.releaseAsset || !form.containerImage || !form.runCommand ||  !form.additionalFiles) {
+         console.log("masuk error repo");
+         const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+          Toast.fire({
+            icon: 'error',
+            title: 'Form is Required'
+          })
+      }
+      else {
+         await dispatch(addFilesRequest(uploadFiles)).then((data) => {
+            setForm({
+               ...form,
+               additionalFiles: data.map(el => {
+                  return el.id
+               })
             })
          })
-      })
-      await dispatch(addTaskRequest(form))
-      navigate('/tasklist')
+         await dispatch(addTaskRequest(form))
+         navigate('/tasklist')
+      }
    }
 
    function handleChangeSearch(e) {
@@ -262,5 +285,6 @@ const AddTask = () => {
       </div>
    )
 }
+
 
 export default AddTask
