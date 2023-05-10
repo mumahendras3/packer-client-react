@@ -1,48 +1,97 @@
-import { useState } from "react"
+import { useEffect, useState } from "react";
 import { FaColumns } from "react-icons/fa";
 import { AiOutlineDownload } from "react-icons/ai";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  donwloadOutputBuild,
+  fetchDetailTaskById,
+  fetchTaskLogs,
+} from "../store/action/actionCreator";
 
 const TaskDetail = () => {
-   const [viewLogs, setviewLogs] = useState(false)
-   function handleLogsView() {
-      setviewLogs(!viewLogs)
-   }
-   return (
-      <div id="taskDetail">
-         <div className="container mx-auto mt-10">
-            <div id="top" className="bg-white shadow border rounded-md p-4">
-               <div id="cardData">
-                  <div id="name" className="flex items-center gap-3">
-                     <FaColumns className="text-2xl" />
-                     <h1 className="text-2xl font-bold">NAMA REPOSITORY</h1>
-                  </div>
-                  <hr className="border-2 border-[#001462] w-1/12 rounded-full my-2" />
-                  <h1>Status : <span>MM/DD/YYY</span> <span>HH/MM/SS</span></h1>
-               </div>
-            </div>
-            <div id="bottom">
-               <div id="action" className="flex gap-4 items-center">
-                  <button onClick={handleLogsView} className="bg-[#1F43CF] px-5 py-1 rounded-md text-white my-3 text-sm">View Logs</button>
-                  <button className="bg-green-600 px-5 py-1 rounded-md text-white my-3 text-sm flex items-center gap-3 font-medium"> <AiOutlineDownload className="text-white" /> Download Build Output</button>
-               </div>
-               {
-                  viewLogs && (
-                     <div id="logView" className="bg-black rounded-md text-[#D6D8D9] text-sm p-5 shadow">
-                        <div id="header" className="flex gap-2 items-center mb-3">
-                           <div className="bg-[#FF6054] h-3 w-3 rounded-full"></div>
-                           <div className="bg-[#FEBD2E] h-3 w-3 rounded-full"></div>
-                           <div className="bg-[#2AC93F] h-3 w-3 rounded-full"></div>
-                        </div>
-                        <span>
-                           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt atque vel, possimus iusto, exercitationem debitis maxime magnam velit ad reprehenderit, delectus ex omnis doloremque beatae at repellendus distinctio cupiditate doloribus rerum incidunt? Iste facilis error pariatur tempore dolorem, unde commodi illo quas, nulla consequatur doloremque similique quaerat voluptatibus nam sapiente est. Vel itaque aut ipsa aspernatur esse nobis sit tempore, non eum culpa nulla voluptas, modi cumque et, doloremque distinctio? Vitae labore earum magni eum. Veniam, cum. Iusto assumenda sapiente dolores inventore dolor libero et aut tenetur alias possimus atque esse consequuntur vitae architecto, saepe recusandae distinctio officiis tempore, harum unde, nemo illo necessitatibus iure facilis. Deserunt, cupiditate. Animi fugit, neque molestiae delectus dolor perspiciatis hic, voluptatem itaque fuga sint similique expedita nostrum consectetur excepturi soluta atque id dolorem qui! Dolorum commodi magni pariatur omnis eius voluptatibus architecto labore. Sit ipsam mollitia placeat, reprehenderit blanditiis optio in culpa animi alias eaque dicta at nostrum officiis sed omnis ullam molestiae corrupti, et modi a illo assumenda temporibus nulla dolore? Et distinctio aspernatur ut est eveniet quis hic, laboriosam tenetur ratione, maiores natus quo nemo repellat, cum quasi. Odio ipsum ut hic sit ipsa. Odit magnam eveniet omnis, aspernatur adipisci autem repellendus sunt est, harum tenetur corporis voluptatibus veritatis illo mollitia blanditiis temporibus. Quae, unde laboriosam aliquam iste et recusandae eum molestiae saepe reiciendis temporibus nisi sapiente laborum quasi numquam odio alias laudantium impedit earum rerum? Quam aliquid incidunt nihil excepturi dolor voluptate maxime nisi ipsa dolorum perspiciatis, ea, at magni nemo minima quibusdam sequi ut ipsum quae animi, officiis assumenda mollitia possimus reprehenderit sed? Praesentium dolorum deserunt dignissimos ab eveniet voluptates quam fugiat, omnis sequi aspernatur voluptatum officia neque dolorem atque nisi repellendus ducimus excepturi nihil. Molestiae id numquam ex laudantium vel, omnis placeat autem iure harum enim voluptate aliquid atque sapiente libero suscipit, minus iusto similique laboriosam ad, natus minima facilis! Voluptate quos esse aspernatur? Itaque beatae magnam molestiae consequatur a neque eum id repellendus! Dolorem id consectetur aspernatur numquam maxime, quis autem rem porro? Laboriosam unde enim qui praesentium ad nobis iusto quia soluta, neque cupiditate distinctio itaque magni repudiandae quisquam accusantium saepe voluptates quidem? Aperiam nemo neque expedita fuga nam quas omnis porro minima illo tenetur temporibus doloribus, delectus labore! Deserunt voluptatum quasi corrupti optio soluta qui libero quas asperiores facere adipisci nobis cum omnis sit modi, magni reiciendis quam maiores. Nostrum, eius! Temporibus adipisci odio provident maiores fugiat, libero est inventore omnis consequuntur, rem, porro delectus nostrum laboriosam deserunt neque facilis labore sunt impedit voluptas id cupiditate! Vero labore nemo exercitationem cum similique asperiores quis culpa facere, corporis temporibus aperiam. Autem dolores necessitatibus distinctio sunt. Voluptatibus ullam officiis laboriosam, exercitationem quod odio? Neque fuga dolor repudiandae mollitia distinctio molestiae deleniti exercitationem labore quod blanditiis provident incidunt, enim, eaque cumque dolorem quibusdam vero in? Veritatis voluptas hic vero, quibusdam beatae dolor quo ut, aut fugiat quaerat, molestiae inventore quasi ab. Sapiente similique tempora illo. Fuga esse magnam modi blanditiis corrupti. Consequuntur voluptates rerum quia voluptatum mollitia fugit eaque laudantium! Reprehenderit tempore, corporis, nesciunt perspiciatis magni fuga vel quis modi consequatur consequuntur laboriosam natus itaque, officia delectus cupiditate. Consequatur culpa odio quos doloribus quaerat possimus ducimus fuga, optio ipsum dolore eveniet sequi ratione. Reiciendis dolor tempore unde ad adipisci eligendi quisquam harum quibusdam aliquid, praesentium quod, accusamus fugiat sint? Ex corrupti accusamus laboriosam consequuntur velit fugit aliquid eligendi natus! Quas unde laborum ratione vel. Repellat nesciunt, totam ipsa alias commodi cumque quasi distinctio possimus facilis fugiat sed. Unde voluptatum quasi, consectetur autem ipsum omnis aliquam commodi officia nulla dignissimos tempora necessitatibus fugit delectus dolore veniam ducimus consequuntur recusandae optio, animi ratione reprehenderit voluptatibus magni! Aspernatur aliquid quas nam perspiciatis nostrum distinctio velit aperiam ea. Distinctio mollitia ducimus repellat, officia consequatur culpa, deserunt quia placeat reiciendis, asperiores vel modi eum harum totam molestiae aliquid? Quidem ratione consectetur, quas repellendus dicta placeat atque optio dolorum veritatis tempora quae! Sint commodi consectetur aperiam maxime. Recusandae vero error maxime animi nihil numquam at non similique earum, fugiat rerum voluptas architecto cum laboriosam quod quidem dignissimos. Quo doloremque quisquam velit iure saepe recusandae laborum quos necessitatibus non quibusdam. Exercitationem, quisquam. Eius consequuntur, eligendi non vel nisi a minima delectus totam, et omnis accusamus assumenda voluptate quibusdam libero animi veniam voluptatum laborum molestias quis dignissimos. Illum repellendus voluptate in accusamus! Maxime id corporis magnam exercitationem enim illo voluptatem facilis, ullam consectetur provident, nesciunt iste non illum veritatis tempore ut architecto, dolorum delectus saepe accusantium corrupti. Modi facere aut quos molestiae doloremque accusantium, ea, fugit consectetur commodi aspernatur consequuntur, numquam quia? In quidem quibusdam laboriosam asperiores? Officia accusantium neque voluptates aliquid quod facere doloremque qui inventore impedit eos totam odio iure, amet optio quisquam atque eveniet provident vel beatae excepturi molestiae magni vitae. Sit, ab soluta similique dolorum ipsum velit et quam impedit tempore nostrum cupiditate fuga perferendis eaque obcaecati veniam non eveniet nulla culpa fugit, harum iusto dolores facere? Voluptates suscipit cumque libero necessitatibus deserunt magnam corporis esse laboriosam. Quisquam cupiditate possimus cum molestias. Aliquam inventore qui est ea laudantium temporibus animi neque! Cumque vel velit necessitatibus quam dolores itaque natus quia numquam, officia repellat architecto tenetur libero mollitia delectus dolorum fuga nisi optio aut deleniti officiis expedita distinctio. Architecto harum quas laudantium at omnis incidunt, sunt nisi? Fuga inventore totam, sunt ab dolor tempore doloribus earum itaque quidem, magnam in illum eveniet, nostrum ullam aliquam labore? Natus enim nostrum ducimus cumque facilis cupiditate repudiandae animi mollitia tenetur maiores fugit modi similique facere asperiores doloremque perferendis repellat nobis quam error quidem consectetur veniam, illo aliquid sit. Corrupti, reprehenderit incidunt in ipsam fuga adipisci commodi! Sunt eum, sint enim ea ratione vitae dolor autem illum totam cum nemo laudantium ducimus dolorem nulla. Error nam, veritatis adipisci, aspernatur libero harum aliquid hic deserunt explicabo cumque repellat, sapiente iste. Veniam perspiciatis, perferendis et praesentium consequuntur autem quibusdam excepturi tempore quasi est aperiam quis similique quos eligendi dolores itaque neque saepe dolore animi soluta cum reprehenderit? Esse, quis accusamus nesciunt eligendi error veritatis quod ullam sunt, eos dolorem repellendus.
-                        </span>
-                     </div>
-                  )
-               }
-            </div>
-         </div>
-      </div>
-   )
-}
+  const [viewLogs, setviewLogs] = useState(false);
+  const taskDetail = useSelector((state) => {
+    console.log(state.taskDetail, "<<<data skrg uda di task detail");
+    return state.taskDetail;
+  });
+  const logs = useSelector((state) => {
+    console.log(state, "<<<logs di task detail");
+    return state.getLogs;
+  });
+  const dispatch = useDispatch();
+  const params = useParams();
 
-export default TaskDetail
+  function handleLogsView(id) {
+    setviewLogs(!viewLogs);
+    dispatch(fetchTaskLogs(id));
+  }
+
+  function downloadOutput(id) {
+    // window.location.href = `http://localhost:3000/tasks/${taskDetail._id}/download`;
+    dispatch(donwloadOutputBuild(id));
+  }
+  useEffect(() => {
+    dispatch(fetchDetailTaskById(params.id));
+  }, []);
+  return (
+    <div id="taskDetail">
+      {Object.keys(taskDetail).length === 0 ? (
+        <h1>Loading</h1>
+      ) : (
+        <div className="container mx-auto mt-10">
+          <div id="top" className="bg-white shadow border rounded-md p-4">
+            <div id="cardData">
+              <div id="name" className="flex items-center gap-3">
+                <FaColumns className="text-2xl" />
+                <h1 className="text-2xl font-bold">{taskDetail.repo.name}</h1>
+              </div>
+              <hr className="border-2 border-[#001462] w-1/12 rounded-full my-2" />
+              <h1>Status : {taskDetail.status}</h1>
+            </div>
+          </div>
+          <div id="bottom">
+            <div id="action" className="flex gap-4 items-center">
+              <button
+                onClick={() => {
+                  handleLogsView(taskDetail._id);
+                }}
+                className="bg-[#1F43CF] px-5 py-1 rounded-md text-white my-3 text-sm"
+              >
+                View Logs
+              </button>
+              <button
+                onClick={() => {
+                  downloadOutput(taskDetail._id);
+                }}
+                className="bg-green-600 px-5 py-1 rounded-md text-white my-3 text-sm flex items-center gap-3 font-medium"
+              >
+                <a
+                  href={`http://localhost:3000/tasks/${taskDetail._id}/download`}
+                  download
+                ></a>
+                <AiOutlineDownload className="text-white" /> Download Build
+                Output
+              </button>
+            </div>
+            {viewLogs && (
+              <div
+                id="logView"
+                className="bg-black rounded-md text-[#D6D8D9] text-sm p-5 shadow"
+              >
+                <div id="header" className="flex gap-2 items-center mb-3">
+                  <div className="bg-[#FF6054] h-3 w-3 rounded-full"></div>
+                  <div className="bg-[#FEBD2E] h-3 w-3 rounded-full"></div>
+                  <div className="bg-[#2AC93F] h-3 w-3 rounded-full"></div>
+                </div>
+                <pre>{logs.length === 0 ? "Loading" : logs}</pre>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default TaskDetail;
