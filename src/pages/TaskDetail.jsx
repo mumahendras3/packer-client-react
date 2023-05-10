@@ -10,6 +10,7 @@ import {
 } from "../store/action/actionCreator";
 
 const TaskDetail = () => {
+   const frameRef = useRef(null);
    const [viewLogs, setviewLogs] = useState(false);
    const taskDetail = useSelector((state) => {
       console.log(state.taskDetail, "<<<data skrg uda di task detail");
@@ -56,6 +57,12 @@ const TaskDetail = () => {
    useEffect(() => {
       dispatch(fetchDetailTaskById(params.id));
    }, [dispatch, params.id]);
+
+   useEffect(() => {
+      if (frameRef.current) {
+         frameRef.current.scrollTop = frameRef.current.scrollHeight;
+      }
+   }, [logs]);
 
    useInterval(() => {
       if (viewLogs) {
@@ -117,7 +124,9 @@ const TaskDetail = () => {
                            <div className="bg-[#FEBD2E] h-3 w-3 rounded-full"></div>
                            <div className="bg-[#2AC93F] h-3 w-3 rounded-full"></div>
                         </div>
-                        <pre>{logs.length === 0 ? "Loading.." : logs}</pre>
+                        <div className="h-[40vh] overflow-y-auto scrollbar" ref={frameRef}>
+                           <pre>{logs.length === 0 ? "Loading.." : logs}</pre>
+                        </div>
                      </div>
                   )}
                </div>
