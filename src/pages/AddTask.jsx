@@ -67,8 +67,7 @@ const AddTask = () => {
             })
          })
       })
-      dispatch(addTaskRequest(form))
-      if (!form.repo || !form.releaseAsset || !form.containerImage || !form.runCommand ||  !uploadFiles) {
+      if (!form.repo || !form.releaseAsset || !form.containerImage || !form.runCommand ) {
          console.log("masuk error repo");
          const Toast = Swal.mixin({
             toast: true,
