@@ -4,12 +4,31 @@ import { MdDelete } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { deleteTask } from '../store/action/actionCreator';
+import Swal from 'sweetalert2';
+
 
 const CardTaskList = ({ task }) => {
    const dispatch = useDispatch();
 
    const handleDelete = () => {
-      dispatch(deleteTask(task._id));
+      Swal.fire({
+         title: 'Are you sure?',
+         text: "You won't be able to revert this!",
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Yes, delete it!'
+       }).then((result) => {
+         if (result.isConfirmed) {
+           Swal.fire(
+             'Deleted!',
+             'Your file has been deleted.',
+             'success'
+           )
+           dispatch(deleteTask(task._id));
+         }
+       })
    };
 
    const statusBG = task.status === "Created" ? "text-green-800" : (task.status === "Succeeded" ? 'text-[#033AC7]' : (task.status === "Failed" ? 'text-[#C70303]' : (task.status === "Running" ? 'text-green-700' : 'text-[#FFAF65]')));
