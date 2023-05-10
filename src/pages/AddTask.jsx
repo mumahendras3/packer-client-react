@@ -162,7 +162,7 @@ const AddTask = () => {
       </div>
    )
    return (
-      <div id="addTask">
+      <div id="addTask" className="min-h-screen">
          <div className="container mx-auto shadow border rounded-md p-10 mt-10 flex justify-between items-start">
             <div id="left" className="w-1/2">
                <div id="heading" className="mb-5">

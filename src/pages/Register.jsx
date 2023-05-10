@@ -52,11 +52,11 @@ const Register = () => {
 
   
   return (
-    <div id="signUp" className="w-screen h-screen p-3">
-      <div id="content" className="flex justify-start items-center h-full">
+    <div id="signUp" className="">
+      <div id="content" className="flex justify-start items-center h-screen">
         <div
           id="left"
-          className="bg-[#F6F9FF] h-full p-5 flex flex-col justify-between w-1/2"
+          className="bg-[#F6F9FF] h-full p-5 flex flex-col justify-around w-1/2"
         >
           <div id="logo">
             <img src={logo} alt="" />

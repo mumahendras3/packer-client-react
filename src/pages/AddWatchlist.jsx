@@ -63,7 +63,7 @@ const AddWatchlist = () => {
       }
    };
    return (
-      <div id="addwatchlist">
+      <div id="addwatchlist" className="min-h-screen">
          <div className="container mx-auto shadow border rounded-md p-10 mt-10 flex justify-between items-center">
             <div id="left" className="w-1/2">
                <div id="heading" className="mb-5">

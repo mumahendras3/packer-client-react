@@ -2,7 +2,7 @@ import { logo } from '../assets/img'
 
 const Footer = () => {
    return (
-      <footer className='pt-10 pb-4'>
+      <footer className='pt-10 pb-4 sticky top-full'>
          <hr className="mt-20 mb-5" />
          <div className="container mx-auto flex justify-between">
             <div id="left" className='w-1/2'>
