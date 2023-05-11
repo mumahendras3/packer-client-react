@@ -196,7 +196,7 @@ export function postLogin(data = {}) {
         icon: "error",
         title: "Login not successfully",
       });
-      throw error
+      throw error;
       console.log(error, "<======= Error");
     }
   };
@@ -204,7 +204,7 @@ export function postLogin(data = {}) {
 
 export const fetchRepos = () => async (dispatch) => {
   try {
-    dispatch(fetchReposRequest())
+    dispatch(fetchReposRequest());
     let axiosOptions = {
       method: "GET",
       url: `${BASE_URL}/repos`,
@@ -237,10 +237,12 @@ export const addRepoRequest = (formData) => async (dispatch) => {
     // dispatch action to update state with the new repository
     console.log(data);
     dispatch(addRepoSuccess(data));
-    dispatch(fetchRepos())
+    dispatch(fetchRepos());
   } catch (err) {
     // dispatch action to update state with error
     dispatch(addRepoFailure(err));
+    console.log(err, "<<erronya");
+    throw err;
   }
 };
 
@@ -271,7 +273,7 @@ export const fetchTasks = () => {
         },
       };
       const { data } = await axios(axiosOptions);
-      console.log(data)
+      console.log(data);
       dispatch(getTasksSuccess(data));
     } catch (error) {
       dispatch(getTasksFailure(error));
@@ -289,13 +291,13 @@ export function addTaskRequest(data = {}, files = []) {
       }
       for (const field of Object.keys(data)) {
         if (data[field]) {
-            if (field === 'runAt') {
-                for (const key of Object.keys(data[field])) {
-                    formData.append(`${field}[${key}]`, data[field][key])
-                }
-            } else {
-                formData.append(field, data[field])
+          if (field === "runAt") {
+            for (const key of Object.keys(data[field])) {
+              formData.append(`${field}[${key}]`, data[field][key]);
             }
+          } else {
+            formData.append(field, data[field]);
+          }
         }
       }
       const response = await axios({
@@ -303,9 +305,9 @@ export function addTaskRequest(data = {}, files = []) {
         url: `${BASE_URL}/tasks`,
         data: formData,
         headers: {
-            "Content-Type": "multipart/form-data",
-            access_token: 
-                localStorage.access_token || sessionStorage.access_token,
+          "Content-Type": "multipart/form-data",
+          access_token:
+            localStorage.access_token || sessionStorage.access_token,
         },
       });
       const successData = response.data;
@@ -321,7 +323,7 @@ export function addTaskRequest(data = {}, files = []) {
         });
       }
       dispatch(postRegisterSuccess(successData));
-      dispatch(fetchTasks())
+      dispatch(fetchTasks());
     } catch (error) {
       console.log(error, "<======= Error");
     }
@@ -427,12 +429,12 @@ export function donwloadOutputBuild(id) {
       document.body.removeChild(link);
       URL.revokeObjectURL(href);
     } catch (err) {
-      console.log(err, 'ini error download');
+      console.log(err, "ini error download");
       Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Build output not found!',
-      })
+        icon: "error",
+        title: "Oops...",
+        text: "Build output not found!",
+      });
     }
   };
 }
@@ -459,23 +461,23 @@ export function fetchTaskLogs(id) {
 export const deleteRepo = (id) => {
   return async (dispatch) => {
     try {
-      const token = localStorage.getItem('access_token');
+      const token = localStorage.getItem("access_token");
       const response = await axios.delete(`${BASE_URL}/repos/${id}`, {
         headers: {
-          "access_token": token
-        }
+          access_token: token,
+        },
       });
       console.log(response.data);
       dispatch(fetchRepos());
       dispatch({
         type: DELETE_REPO_SUCCESS,
-        payload: response.data.message
+        payload: response.data.message,
       });
     } catch (error) {
       console.log(error);
       dispatch({
         type: DELETE_REPO_FAILURE,
-        payload: error.message
+        payload: error.message,
       });
     }
   };
@@ -484,23 +486,23 @@ export const deleteRepo = (id) => {
 export const deleteTask = (id) => {
   return async (dispatch) => {
     try {
-      const token = localStorage.getItem('access_token');
+      const token = localStorage.getItem("access_token");
       const response = await axios.delete(`${BASE_URL}/tasks/${id}`, {
         headers: {
-          "access_token": token
-        }
+          access_token: token,
+        },
       });
       console.log(response.data);
       dispatch(fetchTasks());
       dispatch({
         type: DELETE_TASK_SUCCESS,
-        payload: response.data.message
+        payload: response.data.message,
       });
     } catch (error) {
       console.log(error);
       dispatch({
         type: DELETE_TASK_FAILURE,
-        payload: error.message
+        payload: error.message,
       });
     }
   };
