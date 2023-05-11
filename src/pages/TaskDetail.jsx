@@ -73,7 +73,18 @@ const TaskDetail = () => {
    return (
       <div id="taskDetail">
          {Object.keys(taskDetail).length === 0 ? (
-            <h1>Loading</h1>
+            <div className="flex justify-center items-center mt-80">
+            <div className="">
+               <div
+                     className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                  role="status">
+                  <span
+                        className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                  >Loading...</span
+                  >
+               </div>
+            </div>
+            </div>
          ) : (
             <div className="container mx-auto mt-10">
                <div id="top" className="bg-white shadow border rounded-md p-4">

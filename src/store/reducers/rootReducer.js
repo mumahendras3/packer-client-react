@@ -1,6 +1,7 @@
 import {
   LOGIN_POST_SUCCESS,
   REGISTER_POST_SUCCESS,
+  FETCH_REPOS_REQUEST,
   FETCH_REPOS_SUCCESS,
   FETCH_REPOS_FAILURE,
   ADD_REPO_SUCCESS,
@@ -46,12 +47,19 @@ export default function rootReducer(state = defaultValue, action) {
     return {
       ...state,
       repos: action.payload,
+      loading: false,
+    };
+  } else if (action.type === FETCH_REPOS_REQUEST) {
+    return {
+      ...state,
+      loading: true,
       error: null,
     };
   } else if (action.type === FETCH_REPOS_FAILURE) {
     return {
       ...state,
-      error: null,
+      loading: false,
+      error: action.payload,
     };
   } else if (action.type === ADD_REPO_SUCCESS) {
     return {
@@ -101,6 +109,7 @@ export default function rootReducer(state = defaultValue, action) {
     return {
       ...state,
       taskDetail: action.payload,
+      loading: false
     };
   } else if (action.type === FETCH_TASK_LOGS_SUCCESS) {
     return {
