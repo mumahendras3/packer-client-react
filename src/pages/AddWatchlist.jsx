@@ -13,8 +13,10 @@ const AddWatchlist = () => {
    const [name, setName] = useState('');
    const [ownerName, setOwnerName] = useState('');
    const [githubAccessToken, setGithubAccessToken] = useState('');
+   const [isLoading, setIsLoading] = useState(false)
 
-   const handleSubmit = (event) => {
+   async function handleSubmit(event) {
+      setIsLoading(true)
       event.preventDefault();
       const formData = {
          name,
@@ -58,10 +60,27 @@ const AddWatchlist = () => {
             icon: 'success',
             title: 'Add Repo is Succesfully'
           })
-         dispatch(addRepoRequest(formData));
+         await dispatch(addRepoRequest(formData));
+         setIsLoading(false)
          navigate('/watchlist')
       }
    };
+
+   if (isLoading) return (
+      <div className="flex justify-center items-center mt-80">
+      <div className="">
+         <div
+               className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status">
+            <span
+                  className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+            >Loading...</span
+            >
+         </div>
+      </div>
+      </div>
+   )
+
    return (
       <div id="addwatchlist" className="min-h-screen">
          <div className="container mx-auto shadow border rounded-md p-10 mt-10 flex justify-between items-center">

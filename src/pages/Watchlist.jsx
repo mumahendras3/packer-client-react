@@ -9,10 +9,31 @@ import { Link } from "react-router-dom";
 const Watchlist = () => {
    const dispatch = useDispatch();
    const repos = useSelector(state => state.repos);
+   const loading = useSelector(state => state.loading);
+   const error = useSelector(state => state.error);
 
    useEffect(() => {
       dispatch(fetchRepos());
    }, [dispatch]);
+
+   if (loading) return (
+      <div className="flex justify-center items-center mt-80">
+      <div className="">
+         <div
+               className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status">
+            <span
+                  className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+            >Loading...</span
+            >
+         </div>
+      </div>
+      </div>
+   )
+
+   if (error) {
+      return <p>Error: {error.message}</p>;
+   }
 
    return (
       <div id="watchlist" className="min-h-screen">

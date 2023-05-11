@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   LOGIN_POST_SUCCESS,
   REGISTER_POST_SUCCESS,
+  FETCH_REPOS_REQUEST,
   FETCH_REPOS_SUCCESS,
   FETCH_REPOS_FAILURE,
   ADD_REPO_FAILURE,
@@ -37,6 +38,10 @@ export function postLoginSuccess(payload) {
     payload,
   };
 }
+
+export const fetchReposRequest = () => ({
+  type: FETCH_REPOS_REQUEST,
+});
 
 export const fetchReposSuccess = (repos) => ({
   type: FETCH_REPOS_SUCCESS,
@@ -199,6 +204,7 @@ export function postLogin(data = {}) {
 
 export const fetchRepos = () => async (dispatch) => {
   try {
+    dispatch(fetchReposRequest())
     let axiosOptions = {
       method: "GET",
       url: `${BASE_URL}/repos`,
