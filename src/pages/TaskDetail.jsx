@@ -51,7 +51,6 @@ const TaskDetail = () => {
    }
 
    function downloadOutput(id) {
-      // window.location.href = `http://localhost:3000/tasks/${taskDetail._id}/download`;
       dispatch(donwloadOutputBuild(id));
    }
    useEffect(() => {
@@ -117,7 +116,7 @@ const TaskDetail = () => {
                            className="bg-green-600 px-5 py-1 rounded-md text-white my-3 text-sm flex items-center gap-3 font-medium"
                         >
                            <a
-                              href={`http://localhost:3000/tasks/${taskDetail._id}/download`}
+                              href={`${import.meta.env.VITE_PACKER_SERVER_BASE_URL}/tasks/${taskDetail._id}/download`}
                               download
                            ></a>
                            <BsCloudArrowDownFill className="text-white" /> Download Build

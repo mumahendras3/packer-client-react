@@ -22,8 +22,7 @@ import {
 } from "./actionTypes";
 import Swal from "sweetalert2";
 
-const BASE_URL = "http://localhost:3000";
-// const BASE_URL = 'https://p2-iproject-server-production-c152.up.railway.app'
+const BASE_URL = import.meta.env.VITE_PACKER_SERVER_BASE_URL;
 
 export function postRegisterSuccess(payload) {
   return {
